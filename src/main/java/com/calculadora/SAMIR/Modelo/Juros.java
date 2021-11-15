@@ -19,6 +19,7 @@ public class Juros {
 	private double juros;
 	private double jurosAcumulados;
 	private Integer tipo;
+	private String descricao;
 
 	public int getCodigo() {
 		return codigo;
@@ -58,6 +59,14 @@ public class Juros {
 
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	
