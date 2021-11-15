@@ -15,6 +15,6 @@ public interface ReajusteRepositorio extends JpaRepository<TaxaReajuste, Integer
 	TaxaReajuste findByCodigo(int codigo);
 
 	/* cadastrar taxa De Correcao */
-	<taxaSalvar extends TaxaReajuste> taxaSalvar save(taxaSalvar salvar);
+	//<taxaSalvar extends TaxaReajuste> taxaSalvar save(taxaSalvar salvar);
 
 }

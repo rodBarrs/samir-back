@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.calculadora.SAMIR.Modelo.Mensagem;
+import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
@@ -33,21 +35,30 @@ public class ReajusteController {
 	public @ResponseBody TaxaReajuste filtrarReajusteCodigo(@PathVariable Integer codigo) {
 		return repository.findByCodigo(codigo);
 	}
-	
+
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<TaxaReajuste> filtrarReajuste(@PathVariable Integer tipo) {
 		return repository.findByTipo(tipo);
 	}
 
-	@PostMapping("/salvar/{tipo}")
+	@PostMapping("/salvar")
 	public @ResponseBody TaxaReajuste savarTaxaDeResajuste(@RequestBody TaxaReajuste taxa) {
 		return repository.save(taxa);
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody void removerTaxaDeReajuste(@PathVariable Integer codigo) {
-		TaxaReajuste j = filtrarReajusteCodigo(codigo);
-		this.repository.delete(j);
+	public @ResponseBody Mensagem removerTaxaDeReajuste(@PathVariable Integer codigo) {
+
+		Mensagem respostar = new Mensagem();
+		try {
+			TaxaReajuste j = filtrarReajusteCodigo(codigo);
+			this.repository.delete(j);
+			respostar.setMensagem("TAXA removido");
+		} catch (Exception erro) {
+			respostar.setMensagem("Falha na remoçao da TAXA" + erro.getMessage());
+		}
+
+		return respostar;
 	}
 
 }

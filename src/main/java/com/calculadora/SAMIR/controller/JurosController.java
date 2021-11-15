@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.calculadora.SAMIR.Modelo.Juros;
+import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Repositorio.JurosRepositorio;
 
 @Controller
@@ -38,15 +39,23 @@ public class JurosController {
 		return repository.findByTipo(tipo);
 	}
 
-	@PostMapping("/salvar/{taxa}")
+	@PostMapping("/salvar")
 	public @ResponseBody Juros savarJuros(@RequestBody Juros taxa) {
 		return repository.save(taxa);
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody void removerJuros(@PathVariable Integer codigo) {
+	public @ResponseBody Mensagem removerJuros(@PathVariable Integer codigo) {
+		Mensagem respostar = new Mensagem();
+		try {
 		Juros j = filtrarJurosPorCodigo(codigo);
 		this.repository.delete(j);
+		respostar.setMensagem("Juros removido");
+		}catch (Exception erro) {
+			respostar.setMensagem("Falha na remoçao do Juros" +erro.getMessage() );
+		}
+		
+		return respostar;
 	}
 
 }

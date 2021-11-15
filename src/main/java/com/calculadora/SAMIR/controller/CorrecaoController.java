@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.calculadora.SAMIR.Modelo.Juros;
+import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Repositorio.CorrecaoRepository;
 
@@ -40,15 +42,23 @@ public class CorrecaoController {
 		return repository.findByTipo(tipo);
 	}
 
-	@PostMapping("/salvar/{tipo}")
+	@PostMapping("/salvar")
 	public @ResponseBody TaxaDeCorrecao savarTaxaDeCorrecao(@RequestBody TaxaDeCorrecao taxa) {
 		return repository.save(taxa);
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody void removerTaxaDeCorrecao(@PathVariable Integer codigo) {
-		TaxaDeCorrecao j = filtrarCorrecaoCodigo(codigo);
+	public @ResponseBody Mensagem removerTaxaDeCorrecao(@PathVariable Integer codigo) {
+		Mensagem respostar = new Mensagem();
+		try {
+			TaxaDeCorrecao j = filtrarCorrecaoCodigo(codigo);
 		this.repository.delete(j);
+		respostar.setMensagem("TAXA removido");
+		}catch (Exception erro) {
+			respostar.setMensagem("Falha na remoçao da TAXA" +erro.getMessage() );
+		}
+		
+		return respostar;
 	}
 
 }
