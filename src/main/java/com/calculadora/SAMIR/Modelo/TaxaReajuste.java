@@ -18,6 +18,7 @@ public class TaxaReajuste {
 	private double taxaReajuste;
 	private double taxaAcumulado;
 	private int tipo;
+	private String descricao;
 
 	public int getCodigo() {
 		return codigo;
@@ -57,6 +58,14 @@ public class TaxaReajuste {
 
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }
