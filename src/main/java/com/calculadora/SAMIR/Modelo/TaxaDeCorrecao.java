@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "taxaDeCorrecao")
 public class TaxaDeCorrecao {
-
+	//teste no heroku
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codigo;
