@@ -9,15 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "taxaDeCorrecao")
+@Table(name = "taxaDeCorrecao")
 public class TaxaDeCorrecao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codigo;
 	private Date data;
-	private double taxaCorrecao;
+	private double fator;
 	private double taxaAcumulada;
+	private double percentual;
+	private String tipo_De_Taxa;
+	private int referencia;
 	private int tipo;
 	private String descricao;
 
@@ -38,11 +41,11 @@ public class TaxaDeCorrecao {
 	}
 
 	public double getTaxaCorrecao() {
-		return taxaCorrecao;
+		return fator;
 	}
 
 	public void setTaxaCorrecao(double taxaCorrecao) {
-		this.taxaCorrecao = taxaCorrecao;
+		this.fator = taxaCorrecao;
 	}
 
 	public double getTaxaAcumulada() {
@@ -67,6 +70,30 @@ public class TaxaDeCorrecao {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getTipo_De_Taxa() {
+		return tipo_De_Taxa;
+	}
+
+	public void setTipo_De_Taxa(String tipo_De_Taxa) {
+		this.tipo_De_Taxa = tipo_De_Taxa;
+	}
+
+	public int getReferencia() {
+		return referencia;
+	}
+
+	public void setReferencia(int referencia) {
+		this.referencia = referencia;
+	}
+
+	public double getPercentual() {
+		return percentual;
+	}
+
+	public void setPercentual(double percentual) {
+		this.percentual = percentual;
 	}
 
 }

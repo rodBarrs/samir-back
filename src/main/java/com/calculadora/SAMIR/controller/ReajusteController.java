@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.calculadora.SAMIR.Modelo.Mensagem;
-import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
@@ -43,6 +43,7 @@ public class ReajusteController {
 
 	@PostMapping("/salvar")
 	public @ResponseBody TaxaReajuste savarTaxaDeResajuste(@RequestBody TaxaReajuste taxa) {
+
 		return repository.save(taxa);
 	}
 
@@ -59,6 +60,12 @@ public class ReajusteController {
 		}
 
 		return respostar;
+	}
+
+	@PutMapping("/salvarPUT")
+	public @ResponseBody TaxaReajuste salvarVerdadeiro(@RequestBody TaxaReajuste taxa) {
+
+		return repository.save(taxa);
 	}
 
 }

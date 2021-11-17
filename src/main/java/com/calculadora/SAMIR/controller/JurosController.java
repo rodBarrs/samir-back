@@ -57,5 +57,14 @@ public class JurosController {
 		
 		return respostar;
 	}
-
+	@PostMapping("/salvarVerdadeiro")
+	public @ResponseBody Mensagem salvarVerdadeiro(@RequestBody Juros taxa){
+		int size;
+		Mensagem mensagem =  new Mensagem();
+		Juros calculo = new Juros();
+		size = repository.save(taxa).getCodigo();
+		
+		mensagem.setMensagem("o topo e: " + size);
+		return  mensagem;
+	}
 }
