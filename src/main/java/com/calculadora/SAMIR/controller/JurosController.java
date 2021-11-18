@@ -3,21 +3,23 @@ package com.calculadora.SAMIR.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Juros;
 import com.calculadora.SAMIR.Modelo.Mensagem;
+import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Repositorio.JurosRepositorio;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/juros")
 public class JurosController {
@@ -36,7 +38,7 @@ public class JurosController {
 
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<Juros> filtrarJurosPorTipo(@PathVariable Integer tipo) {
-		return repository.findByTipo(tipo);
+		return repository.findByTipoOrderByCodigoAsc(tipo);
 	}
 
 	@PostMapping("/salvar")
@@ -57,14 +59,37 @@ public class JurosController {
 		
 		return respostar;
 	}
-	@PostMapping("/salvarVerdadeiro")
-	public @ResponseBody Mensagem salvarVerdadeiro(@RequestBody Juros taxa){
-		int size;
-		Mensagem mensagem =  new Mensagem();
-		Juros calculo = new Juros();
-		size = repository.save(taxa).getCodigo();
+	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
+	public Mensagem CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+		List<Juros> taxasNovas = repository.findByTipo(tipo);
+		Mensagem reposta = new Mensagem();
+
+		if (operacao.equals("soma")) {
+			for (int i = 0; i < taxasNovas.size(); i++) {
+				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + valor);
+				repository.save(taxasNovas.get(i));
+			}
+			reposta.setMensagem("Soma executada");
+			return reposta;
+		} else if (operacao.equals("subtracao")) {
+			for (int i = 0; i < taxasNovas.size(); i++) {
+				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - valor);
+				repository.save(taxasNovas.get(i));
+				
+			}
+			reposta.setMensagem("subtracao executada");
+			return reposta;
+
+		}
 		
-		mensagem.setMensagem("o topo e: " + size);
-		return  mensagem;
+		else {
+			reposta.setMensagem("ERRO falha na execucao");
+			return reposta;
+
+		}
+
+
 	}
+
+	
 }

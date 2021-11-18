@@ -3,7 +3,6 @@ package com.calculadora.SAMIR.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping("/reajuste")
 public class ReajusteController {
@@ -38,7 +38,7 @@ public class ReajusteController {
 
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<TaxaReajuste> filtrarReajuste(@PathVariable Integer tipo) {
-		return repository.findByTipo(tipo);
+		return repository.findByTipoOrderByCodigoAsc (tipo);
 	}
 
 	@PostMapping("/salvar")
@@ -62,10 +62,35 @@ public class ReajusteController {
 		return respostar;
 	}
 
-	@PutMapping("/salvarPUT")
-	public @ResponseBody TaxaReajuste salvarVerdadeiro(@RequestBody TaxaReajuste taxa) {
+	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
+	public Mensagem CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+		List<TaxaReajuste> taxasNovas = repository.findByTipo(tipo);
+		Mensagem reposta = new Mensagem();
 
-		return repository.save(taxa);
+		if (operacao.equals("multiplicacao")) {
+			for (int i = 1; i < taxasNovas.size(); i++) {
+				taxasNovas.get(i).setTaxaAcumulado(taxasNovas.get(i).getTaxaAcumulado() * valor);
+				repository.save(taxasNovas.get(i));
+			}
+			reposta.setMensagem("Multiplicaçao executada");
+			return reposta;
+		} else if (operacao.equals("divisao")) {
+			for (int i = 0; i < taxasNovas.size(); i++) {
+				taxasNovas.get(i).setTaxaAcumulado(taxasNovas.get(i).getTaxaAcumulado() / valor);
+				repository.save(taxasNovas.get(i));
+				
+			}
+			reposta.setMensagem("Divisao executada");
+			return reposta;
+
+		}
+		
+		else {
+			reposta.setMensagem("ERRO falha na execucao");
+			return reposta;
+
+		}
+
+
 	}
-
 }
