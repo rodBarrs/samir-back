@@ -15,10 +15,9 @@ public class TaxaReajuste {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codigo;
 	private Date data;
-	private double taxaReajuste;
-	private double taxaAcumulado;
-	private int tipo;
-	private String descricao;
+	private double reajuste;
+	private double aumentoReal;
+	private double reajusteAcumulado;
 
 	public int getCodigo() {
 		return codigo;
@@ -36,36 +35,28 @@ public class TaxaReajuste {
 		this.data = data;
 	}
 
-	public double getTaxaReajuste() {
-		return taxaReajuste;
+	public double getReajuste() {
+		return reajuste;
 	}
 
-	public void setTaxaReajuste(double taxaReajuste) {
-		this.taxaReajuste = taxaReajuste;
+	public void setReajuste(double reajuste) {
+		this.reajuste = reajuste;
 	}
 
-	public double getTaxaAcumulado() {
-		return taxaAcumulado;
+	public double getAumentoReal() {
+		return aumentoReal;
 	}
 
-	public void setTaxaAcumulado(double taxaAcumulado) {
-		this.taxaAcumulado = taxaAcumulado;
+	public void setAumentoReal(double aumentoReal) {
+		this.aumentoReal = aumentoReal;
 	}
 
-	public int getTipo() {
-		return tipo;
+	public double getReajusteAcumulado() {
+		return reajusteAcumulado;
 	}
 
-	public void setTipo(int tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setReajusteAcumulado(double reajusteAcumulado) {
+		this.reajusteAcumulado = reajusteAcumulado;
 	}
 
 }

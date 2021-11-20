@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,11 +35,6 @@ public class ReajusteController {
 		return repository.findByCodigo(codigo);
 	}
 
-	@GetMapping("/procurarPorTipo/{tipo}")
-	public @ResponseBody List<TaxaReajuste> filtrarReajuste(@PathVariable Integer tipo) {
-		return repository.findByTipoOrderByCodigoAsc (tipo);
-	}
-
 	@PostMapping("/salvar")
 	public @ResponseBody TaxaReajuste savarTaxaDeResajuste(@RequestBody TaxaReajuste taxa) {
 
@@ -62,35 +56,5 @@ public class ReajusteController {
 		return respostar;
 	}
 
-	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
-	public Mensagem CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
-		List<TaxaReajuste> taxasNovas = repository.findByTipo(tipo);
-		Mensagem reposta = new Mensagem();
 
-		if (operacao.equals("multiplicacao")) {
-			for (int i = 1; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setTaxaAcumulado(taxasNovas.get(i).getTaxaAcumulado() * valor);
-				repository.save(taxasNovas.get(i));
-			}
-			reposta.setMensagem("Multiplicaçao executada");
-			return reposta;
-		} else if (operacao.equals("divisao")) {
-			for (int i = 0; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setTaxaAcumulado(taxasNovas.get(i).getTaxaAcumulado() / valor);
-				repository.save(taxasNovas.get(i));
-				
-			}
-			reposta.setMensagem("Divisao executada");
-			return reposta;
-
-		}
-		
-		else {
-			reposta.setMensagem("ERRO falha na execucao");
-			return reposta;
-
-		}
-
-
-	}
 }
