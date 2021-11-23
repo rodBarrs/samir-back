@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping("/procurar")
 public class TesteController {
-	public WebDriver driver; 
+	/*public WebDriver driver; 
 	public TesteController() {
 		this.driver = new ChromeDriver();
 	}
@@ -28,5 +28,5 @@ public class TesteController {
 		
 		return("funciona");
 	}
-
+*/
 }
