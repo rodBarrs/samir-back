@@ -1,32 +1,33 @@
 package com.calculadora.SAMIR.controller;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.calculadora.SAMIR.Repositorio.SeleniumRepositorio;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/procurar")
 public class TesteController {
-	/*public WebDriver driver; 
-	public TesteController() {
-		this.driver = new ChromeDriver();
-	}
 	
-	@PostMapping("/teste1/{ativador}")
-	public @ResponseBody String teste1(@PathVariable Integer ativador) {
-		while(ativador == 1) {
-		String url = "https://www.facebook.com";
-		driver.get(url);
-		driver.quit();
+		@Autowired
+		private SeleniumRepositorio repository;
+		
+		@GetMapping("/open")
+		public @ResponseBody void open() {
+			String url;
+			url =  "https://pt-br.facebook.com/";
+			 repository.open(url);
 		}
 		
-		return("funciona");
-	}
-*/
+		@GetMapping("/quit")
+		public @ResponseBody void quit() {
+			 repository.quit();
+		}
+		
+	
 }
