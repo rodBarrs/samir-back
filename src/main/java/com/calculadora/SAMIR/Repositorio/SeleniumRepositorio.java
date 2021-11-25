@@ -4,12 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
 
-import com.calculadora.SAMIR.Modelo.SeleniumTeste;
-
 @Service
 public class SeleniumRepositorio {
 	
-	SeleniumTeste web = new SeleniumTeste();
 	
 	WebDriver driver = null;
 	
