@@ -31,12 +31,7 @@ public class SeleniumRepositorio {
 		WebElement resultado = driver.findElement(By.id("result"));
 		
 		Thread.sleep(3000); 
-		if(resultado.getText() == verificar) {
-			return verificar;
-		}
-		else {
-			return "fodeu";
-		}
+		return resultado.getText();
 	}
 	
 	public void quit() {
