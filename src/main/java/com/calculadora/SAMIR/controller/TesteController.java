@@ -20,7 +20,7 @@ public class TesteController {
 		@GetMapping("/open")
 		public @ResponseBody void open() {
 			String url;
-			url =  "https://pt-br.facebook.com";
+			url =  "https://pt-br.facebook.com/";
 			 repository.open(url);
 		}
 		
