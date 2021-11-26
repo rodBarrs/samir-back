@@ -20,7 +20,7 @@ public class TesteController {
 		@GetMapping("/open")
 		public @ResponseBody String soma() throws InterruptedException {
 			String url;
-			url =  "https://marcelodebittencourt.com/demopages/demosimplesearch/";
+			url =  "https://sapiens.agu.gov.br/login";
 			return repository.open(url);
 			
 			

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Juros;
 import com.calculadora.SAMIR.Modelo.Mensagem;
-import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Repositorio.JurosRepositorio;
 
 @RestController
