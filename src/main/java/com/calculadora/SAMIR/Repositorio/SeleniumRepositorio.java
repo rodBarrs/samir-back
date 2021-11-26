@@ -1,5 +1,9 @@
 package com.calculadora.SAMIR.Repositorio;
 
+
+
+
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,11 +16,27 @@ public class SeleniumRepositorio {
 	
 	WebDriver driver = null;
 	
-	public void open(String url) throws InterruptedException {
+	public String open(String url) throws InterruptedException {
 	 driver = new ChromeDriver();
 		driver.get(url);
+		String campoPath = "textbox";
+		
+		WebElement campoElemt =   driver.findElement(By.id(campoPath));
+		String  verificar = "selenium";
+		campoElemt.sendKeys(verificar);
+	
+		String butonPath = "button1";
+		WebElement butonElem =   driver.findElement(By.id(butonPath));
+		butonElem.click();
+		WebElement resultado = driver.findElement(By.id("result"));
 		
 		Thread.sleep(3000); 
+		if(resultado.getText() == verificar) {
+			return verificar;
+		}
+		else {
+			return "fodeu";
+		}
 	}
 	
 	public void quit() {

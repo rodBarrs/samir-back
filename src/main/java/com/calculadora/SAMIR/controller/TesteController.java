@@ -18,10 +18,10 @@ public class TesteController {
 		private SeleniumRepositorio repository;
 		
 		@GetMapping("/open")
-		public @ResponseBody void soma() throws InterruptedException {
+		public @ResponseBody String soma() throws InterruptedException {
 			String url;
-			url =  "https://pt-br.facebook.com/";
-			repository.open(url);
+			url =  "https://marcelodebittencourt.com/demopages/demosimplesearch/";
+			return repository.open(url);
 			
 			
 			
