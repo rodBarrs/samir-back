@@ -27,7 +27,7 @@ public class SeleniumRepositorio {
 		String url = "https://sapiens.agu.gov.br/login";
 		driver = new ChromeDriver();
 		driver.get(url);
-		this.driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS).pageLoadTimeout(15,TimeUnit.SECONDS );
+		this.driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS).pageLoadTimeout(60,TimeUnit.SECONDS );
 		
 		
 		String campoUserPath = "/html/body/div[1]/div[1]/div/div/div[2]/div/div/div/table[1]/tbody/tr/td[2]/input";
