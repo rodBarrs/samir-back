@@ -1,5 +1,7 @@
 package com.calculadora.SAMIR.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,21 @@ public class TesteController {
 		private SeleniumRepositorio repository;
 		
 		@PostMapping("/open")
-		public @ResponseBody String soma(@RequestBody LoginModelo login) throws InterruptedException {
+		public @ResponseBody void open(@RequestBody LoginModelo login) throws InterruptedException {
 			repository.open(login);	
+			
+		}
+		
+		@PostMapping("/procurar")
+		public @ResponseBody String procurar (@RequestBody LoginModelo login){
 			return repository.teste(login);
 		}
+		@PostMapping("/procurar1")
+		public @ResponseBody String procurar1(@RequestBody LoginModelo login) throws UnsupportedEncodingException{
+			 return repository.teste1(login);
+			
+		}
+
 
 		
 		@GetMapping("/quit")

@@ -4,6 +4,10 @@ package com.calculadora.SAMIR.Repositorio;
 
 
 
+
+
+
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -27,7 +31,7 @@ public class SeleniumRepositorio {
 		String url = "https://sapiens.agu.gov.br/login";
 		driver = new ChromeDriver();
 		driver.get(url);
-		this.driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS).pageLoadTimeout(60,TimeUnit.SECONDS );
+		this.driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS).pageLoadTimeout(15,TimeUnit.SECONDS );
 		
 		
 		String campoUserPath = "/html/body/div[1]/div[1]/div/div/div[2]/div/div/div/table[1]/tbody/tr/td[2]/input";
@@ -44,25 +48,48 @@ public class SeleniumRepositorio {
 		String sendLoginPath = "button-1019-btnIconEl";
         WebElement sendLoginElem = driver.findElement(By.id(sendLoginPath));
 		sendLoginElem.click();
+		
+		
+		
 	
 		
 		
 	}
 	
 	public  String teste(LoginModelo usuario) {
-		String resultadoPath ="/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]";
-		WebElement resultado = driver.findElement(By.xpath(resultadoPath));
+		this.driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS).pageLoadTimeout(15,TimeUnit.SECONDS );
+		WebElement seta1 = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[3]/div/div/div[3]/div"));
+		seta1.click();
+		WebElement seta = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[3]/div/div/div[3]/div/div"));
+		seta.click();
 		
-		String processo = new String(resultado.getText());
-		String usuarioProcesso = new String(usuario.getProcesso());
-		if(processo == usuarioProcesso ) {
-			return "deu certo";
-		}
-		else {
-			return "usario: " + usuario.getProcesso() + "processo: " + processo;
-		}
+		WebElement filtro = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div/div[6]/a"));
+		filtro.click();
+		WebElement filtroEs = driver.findElement(By.xpath("/html/body/div[13]/div/div[2]/div/table/tbody/tr/td[2]/input"));
+		// /html/body/div[13]/div/div[2]/div/table/tbody/tr/td[2]/input                                                /html/body/div[13]/div/div[2]/div/table/tbody/tr/td[2]/input
+		filtroEs.click();
+		filtroEs.sendKeys(usuario.getProcesso());
+		WebElement preocessoElement = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr/td[3]/div/a[1]"));
+		preocessoElement.click();
+		
+		//WebElement dosPrev = this.driver.findElement(By.cssSelector(" span[id*=DOSSIÊ PREVIDENCIÁRIO]"));
+		//dosPrev.click();
+				//WebElement colunaNome = linhaDaTabela.findElement(By.cssSelector("td:nth-child(1)"));
+		
+		
+		return "deu certo";
+		
+		
 		
 	}
+	public  String teste1(LoginModelo usuario) throws UnsupportedEncodingException {
+	
+	    return "deu certo";
+		
+	}
+	
+	
+	
 	public void quit() {
 		 driver.quit();
 	}
