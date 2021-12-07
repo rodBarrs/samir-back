@@ -4,7 +4,16 @@ public class LoginModelo {
 	String processo;
 	String user;
 	String pass;
+	String url;
 	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getUser() {
 		return user;
 	}

@@ -1,7 +1,5 @@
 package com.calculadora.SAMIR.controller;
 
-import java.io.UnsupportedEncodingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +31,7 @@ public class TesteController {
 			return repository.teste(login);
 		}
 		@PostMapping("/procurar1")
-		public @ResponseBody String procurar1(@RequestBody LoginModelo login) throws UnsupportedEncodingException{
+		public @ResponseBody String procurar1(@RequestBody LoginModelo login){
 			 return repository.teste1(login);
 			
 		}
