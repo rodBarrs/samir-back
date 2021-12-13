@@ -21,20 +21,38 @@ public class TesteController {
 		private SeleniumRepositorio repository;
 		
 		@PostMapping("/open")
-		public @ResponseBody void open(@RequestBody LoginModelo login) throws InterruptedException {
-			repository.open(login);	
+		public @ResponseBody String open(@RequestBody LoginModelo login) throws InterruptedException {
+			return repository.open(login);	
+			
+		}
+		@GetMapping("/colocarFiltro")
+		public @ResponseBody String colocarFiltro() {
+			 return repository.colocarFiltro();
+		}
+		
+
+		@GetMapping("/entrarNosProcessos")
+		public @ResponseBody String entrarNosProcessos() {
+			 return repository.entrarNoProcessoAutomatico();
+		}
+		
+		@PostMapping("/procurarProcesso")
+		public @ResponseBody String procurarProcesso (@RequestBody LoginModelo login){
+			return repository.procurarProcesso(login);
+		}
+		@GetMapping("/procurarDosPrev")
+		public @ResponseBody String ProcurarDosPrev(){
+			 return repository.procurarDosPrev();
 			
 		}
 		
-		@PostMapping("/procurar")
-		public @ResponseBody String procurar (@RequestBody LoginModelo login){
-			return repository.teste(login);
+		
+		@PostMapping("/executarTarefa")
+		public @ResponseBody String executarTarefa (@RequestBody LoginModelo login){
+			return repository.procurarProcesso(login);
 		}
-		@PostMapping("/procurar1")
-		public @ResponseBody String procurar1(@RequestBody LoginModelo login){
-			 return repository.teste1(login);
-			
-		}
+		
+		
 
 
 		
