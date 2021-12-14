@@ -8,14 +8,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import com.calculadora.SAMIR.Modelo.InfomacoesDosPrev;
 import com.calculadora.SAMIR.Modelo.LoginModelo;
 
 @Service
 public class SeleniumRepositorio {
 
 	WebDriver driver;
+	WebDriverWait wait;
 
 	public String open(LoginModelo usuario) throws InterruptedException {
 
@@ -23,7 +28,6 @@ public class SeleniumRepositorio {
 		System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
 		driver = new FirefoxDriver();
 		driver.get(url);
-		this.driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS).pageLoadTimeout(15, TimeUnit.SECONDS);
 
 		String campoUserPath = "/html/body/div[1]/div[1]/div/div/div[2]/div/div/div/table[1]/tbody/tr/td[2]/input";
 		WebElement campoUserElemt = driver.findElement(By.xpath(campoUserPath));
@@ -39,9 +43,15 @@ public class SeleniumRepositorio {
 		WebElement sendLoginElem = driver.findElement(By.id(sendLoginPath));
 		sendLoginElem.click();
 
+		// driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		// WebElement myDynamicElement = (new WebDriverWait(driver,
+		// 60)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[3]/span/span/span[1]")));
+		wait.until(ExpectedConditions.elementToBeClickable(
+				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[2]/span/span/span[1]")));
 		boolean confirmacaoDeLogin1 = driver
 				.findElement(
 						By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[2]/span/span/span[1]"))
+
 				.getText().toUpperCase().contains("Tramitações");
 		boolean confirmacaoDeLogin2 = driver
 				.findElement(
@@ -60,6 +70,7 @@ public class SeleniumRepositorio {
 	}
 
 	public String colocarFiltro() {
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		WebElement setaAparecer = driver.findElement(
 				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[3]/div/div/div[33]/div/span"));
 		setaAparecer.click();
@@ -81,6 +92,7 @@ public class SeleniumRepositorio {
 	}
 
 	public String entrarNoProcessoAutomatico() {
+		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
 		boolean confirmacaoDeExistencia = driver
 				.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div/div[7]"))
@@ -105,7 +117,7 @@ public class SeleniumRepositorio {
 	}
 
 	public String procurarProcesso(LoginModelo usuario) {
-		this.driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS).pageLoadTimeout(15, TimeUnit.SECONDS);
+		this.driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS).pageLoadTimeout(60, TimeUnit.SECONDS);
 		WebElement seta1 = driver
 				.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[3]/div/div/div[3]/div"));
 		seta1.click();
@@ -136,7 +148,8 @@ public class SeleniumRepositorio {
 
 	}
 
-	public String procurarDosPrev() {
+	public InfomacoesDosPrev procurarDosPrev() {
+		InfomacoesDosPrev informacao = new InfomacoesDosPrev(); 
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
 		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(janela.get(1));
@@ -148,12 +161,45 @@ public class SeleniumRepositorio {
 			Boolean existeDosPrev = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span")).getText()
 					.toUpperCase().contains("DOSSIÊ PREVIDENCIÁRIO");
 			if (existeDosPrev == true) {
+				WebElement dosClick = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span"));
+				dosClick.click();
+
+				driver.switchTo().frame(0);
+				String dataAjuizamento = "";
+				try {
+					dataAjuizamento = driver.findElement(By.xpath("/html/body/div/div[1]/table/tbody/tr[2]/td"))
+							.getText();
+					informacao.setDataAjuizamento(dataAjuizamento);
+					System.out.println("Data de ajuizamento " + dataAjuizamento.toString());
+					String dib = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[2]/td[4]"))
+							.getText();
+					informacao.setDibInicial(dib);
+					System.out.println("DIB: " + dib);
+					String elementoData = driver.findElement(By.xpath("/html/body/div/p[2]/b")).getText();
+					System.out.println("Elemento Data: " + elementoData);
+
+				} catch (Exception e) {
+					System.out.println("Vish entrei no tal do catch 2");
+					// dataAjuizamento =
+					// driver.findElement(By.xpath("/html/body/div/div[5]/table/tbody/tr[3]/td[2]")).getText();
+				}
+				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
+				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
+				// String pass = "AfonsoSoVacuo1";
+				campoPassElemt.sendKeys("asserta");
+				
+				
 				driver.switchTo().window(janela.get(1)).close();
 				driver.switchTo().window(janela.get(0));
-				return "dados colhidos";
+				WebElement filtroSpace = driver
+						.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
+				filtroSpace.click();
+				
+				
+				return informacao;
 			}
 		}
-		return "erro grave analise";
+		return null;
 		// driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL.TAB);
 
 		/*

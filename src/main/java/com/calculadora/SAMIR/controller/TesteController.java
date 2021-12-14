@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calculadora.SAMIR.Modelo.InfomacoesDosPrev;
 import com.calculadora.SAMIR.Modelo.LoginModelo;
 import com.calculadora.SAMIR.Repositorio.SeleniumRepositorio;
 
@@ -41,7 +42,7 @@ public class TesteController {
 			return repository.procurarProcesso(login);
 		}
 		@GetMapping("/procurarDosPrev")
-		public @ResponseBody String ProcurarDosPrev(){
+		public @ResponseBody InfomacoesDosPrev ProcurarDosPrev(){
 			 return repository.procurarDosPrev();
 			
 		}
