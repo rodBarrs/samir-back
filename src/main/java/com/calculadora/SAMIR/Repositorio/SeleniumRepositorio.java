@@ -1,16 +1,21 @@
 package com.calculadora.SAMIR.Repositorio;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import com.calculadora.SAMIR.Modelo.InfomacoesDosPrev;
@@ -148,8 +153,9 @@ public class SeleniumRepositorio {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public InfomacoesDosPrev procurarDosPrev() {
-		InfomacoesDosPrev informacao = new InfomacoesDosPrev(); 
+		InfomacoesDosPrev informacao = new InfomacoesDosPrev();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
 		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(janela.get(1));
@@ -163,14 +169,54 @@ public class SeleniumRepositorio {
 			if (existeDosPrev == true) {
 				WebElement dosClick = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span"));
 				dosClick.click();
+				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
+				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
+				campoPassElemt.click();
+				campoPassElemt.sendKeys("LIDO");
+				WebElement salvarEtiqueta = driver
+						.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
+				salvarEtiqueta.click();
 
 				driver.switchTo().frame(0);
 				String dataAjuizamento = "";
 				try {
+				String dataValiadcaoString = driver.findElement(By.xpath("/html/body/div/p[2]/b")).getText();
+				System.out.println(dataValiadcaoString);
+					dataValiadcaoString = dataValiadcaoString.replace("* Informações extraídas dos sistemas informatizados do INSS em: ", "");
+					System.out.println(dataValiadcaoString);
+					
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+					formatter = formatter.withLocale(Locale.US);
+					//DateTimeFormatter dataForma = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+					LocalDateTime dataATUALocalDateTime = LocalDateTime.now();
+					System.out.println(dataATUALocalDateTime);
+					System.out.println("passou1");
+					LocalDateTime dataValidacao = LocalDateTime.parse(dataValiadcaoString, formatter);
+					System.out.println("passou2");
+					System.out.println(dataValidacao);
+					Date data = new Date();
+					for (int x = 0; x < 1000; x++) {
+						if(dataATUALocalDateTime.getDayOfMonth() == dataValidacao.getDayOfMonth() && dataATUALocalDateTime.getYear() == dataValidacao.getYear() && dataATUALocalDateTime.getMonth() == dataValidacao.getMonth()) {
+							x = 30000;
+						}
+						else if(x == 999) {
+							/*driver.switchTo().defaultContent();
+							campoPassElemt.click();
+							campoPassElemt.sendKeys("NAO");
+							salvarEtiqueta.click();*/
+							System.out.println("aquiiii");
+
+							return null;
+						}
+						data.setDate(data.getDate() + 1);
+						dataValidacao = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+						dataValidacao.withDayOfMonth(dataValidacao.getDayOfMonth() + 1);
+						System.out.println("data validaçao com incremento: " + dataValidacao.getDayOfMonth() + "/" + dataValidacao.getMonth() + "/" + dataValidacao.getYear());
+						System.out.println("data atual: " + dataATUALocalDateTime.getDayOfMonth()+ "/" + dataATUALocalDateTime.getMonth() + "/" + dataATUALocalDateTime.getYear());
+					 }
 					dataAjuizamento = driver.findElement(By.xpath("/html/body/div/div[1]/table/tbody/tr[2]/td"))
 							.getText();
 					informacao.setDataAjuizamento(dataAjuizamento);
-					System.out.println("Data de ajuizamento " + dataAjuizamento.toString());
 					String dib = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[2]/td[4]"))
 							.getText();
 					informacao.setDibInicial(dib);
@@ -183,69 +229,17 @@ public class SeleniumRepositorio {
 					// dataAjuizamento =
 					// driver.findElement(By.xpath("/html/body/div/div[5]/table/tbody/tr[3]/td[2]")).getText();
 				}
-				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
-				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
-				// String pass = "AfonsoSoVacuo1";
-				campoPassElemt.sendKeys("asserta");
-				
-				
+
 				driver.switchTo().window(janela.get(1)).close();
 				driver.switchTo().window(janela.get(0));
-				WebElement filtroSpace = driver
-						.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
+				WebElement filtroSpace = driver.findElement(By
+						.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
 				filtroSpace.click();
-				
-				
+
 				return informacao;
 			}
 		}
 		return null;
-		// driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL.TAB);
-
-		/*
-		 * WebElement TabelaTref = driver.findElement(By.id("treeview-1015"));
-		 * List<WebElement> listaMovimentacao = new
-		 * ArrayList<WebElement>(TabelaTref.findElements(By.cssSelector("tr"))); for
-		 * (int i = 2; i < listaMovimentacao.size(); i++) {
-		 * 
-		 * // Providência Jurídica é o título da movimentação Boolean
-		 * existeDossiePrevidenciario = driver.findElement(By.xpath("//tr[" + i +
-		 * "]/td[2]/div/span")).getText()
-		 * .toUpperCase().contains("DOSSIÊ PREVIDENCIÁRIO");
-		 * 
-		 * if(existeDossiePrevidenciario == true) {
-		 * 
-		 * WebElement dosPrev = driver.findElement(By.xpath("//tr[" + i +
-		 * "]/td[2]/div/span")); dosPrev.click(); WebElement TabelaDosPrev =
-		 * driver.findElement(By.id("iframe-myiframe")); List<WebElement> listaDosPrev =
-		 * new ArrayList<WebElement>(TabelaDosPrev.findElements(By.cssSelector("tr")));
-		 * WebElement data =
-		 * driver.findElement(By.xpath("html/body/div/div[1]/table/tbody/tr[2]/td"));
-		 * return data.getText(); for (int y = 2; y < listaDosPrev.size(); y++) {
-		 * 
-		 * // Providência Jurídica é o título da movimentação Boolean existeData =
-		 * driver.findElement(By.xpath("//tr[" + y + "]/th")).getText()
-		 * .toUpperCase().contains("DATA AJUIZAMENTO"); System.out.println("//tr[" + y +
-		 * "]");
-		 * 
-		 * WebElement data =
-		 * driver.findElement(By.xpath("html/body/div/div[1]/table/tbody/tr[2]/td"));
-		 * return data.getText(); if(existeData == true) {
-		 * 
-		 * WebElement data = driver.findElement(By.xpath("//tr[" + y + "]/td"));
-		 * System.out.println(data.getText()); data.click();
-		 * ///html/body/div[2]/div[2]/div/div[2]/div/div[3]/div/table/tbody/tr[13]/td[2]
-		 * /div/span/span[1] ////html/body/div/div[1]/table/tbody/tr[2]/td
-		 * ///html/body/div/div[1]/table/tbody/tr[3]/td
-		 * ///html/body/div/div[1]/table/tbody/tr[2]/td
-		 * ///html/body/div/div[1]/table/tbody/tr[2]/th
-		 * ///html/body/div/div[1]/table/tbody/tr[2]/td
-		 * 
-		 * return data.getText(); } else if(y == listaDosPrev.size() -1 ) { return
-		 * "fodeu"; } }
-		 * 
-		 * //return "deu certo"; } }
-		 */
 
 	}
 
