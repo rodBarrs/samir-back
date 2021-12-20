@@ -27,19 +27,47 @@ public class TesteController {
 			
 		}
 		@GetMapping("/colocarFiltro")
-		public @ResponseBody String colocarFiltro() {
+		public @ResponseBody String colocarFiltro() throws InterruptedException {
 			 return repository.colocarFiltro();
 		}
 		
 
 		@GetMapping("/entrarNosProcessos")
-		public @ResponseBody String entrarNosProcessos() {
+		public @ResponseBody String entrarNosProcessos() throws InterruptedException {
 			 return repository.entrarNoProcessoAutomatico();
 		}
 		
 		@PostMapping("/procurarProcesso")
 		public @ResponseBody String procurarProcesso (@RequestBody LoginModelo login){
 			return repository.procurarProcesso(login);
+		}
+		@GetMapping("/validarDosPrev")
+		public @ResponseBody Boolean validarDosPrev() throws InterruptedException {
+			 return repository.dataDeValidacaoDosPrev();
+			
+		}
+		
+		@PostMapping("/teste")
+		public @ResponseBody InfomacoesDosPrev[] teste(@RequestBody LoginModelo login) throws InterruptedException{
+			repository.open(login);
+			repository.colocarFiltro();
+			InfomacoesDosPrev[] lista = new InfomacoesDosPrev[100];
+			int x = 0;
+			boolean validacao;
+			while("Sem registros para exibir" != repository.entrarNoProcessoAutomatico()) {
+				validacao = repository.dataDeValidacaoDosPrev();
+				if ( validacao == true) {
+					lista[x] = repository.procurarDosPrev();
+					repository.etiquetar(validacao);
+					x++;
+				}
+				else {
+					repository.etiquetar(validacao);
+				}
+			}
+			
+			 return lista;
+			
 		}
 		@GetMapping("/procurarDosPrev")
 		public @ResponseBody InfomacoesDosPrev ProcurarDosPrev(){

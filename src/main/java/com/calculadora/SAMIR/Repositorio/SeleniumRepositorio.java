@@ -1,10 +1,8 @@
 package com.calculadora.SAMIR.Repositorio;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import com.calculadora.SAMIR.Modelo.InfomacoesDosPrev;
@@ -27,8 +24,7 @@ public class SeleniumRepositorio {
 	WebDriver driver;
 	WebDriverWait wait;
 
-	public String open(LoginModelo usuario) throws InterruptedException {
-
+	public String open(LoginModelo usuario) {
 		String url = "https://sapiens.agu.gov.br/login";
 		System.setProperty("webdriver.gecko.driver", "GeckoDriver.exe");
 		driver = new FirefoxDriver();
@@ -51,8 +47,14 @@ public class SeleniumRepositorio {
 		// driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		// WebElement myDynamicElement = (new WebDriverWait(driver,
 		// 60)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[3]/span/span/span[1]")));
-		wait.until(ExpectedConditions.elementToBeClickable(
-				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[2]/span/span/span[1]")));
+		// wait.until(ExpectedConditions.elementToBeClickable(
+		// By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+		long time = 100;
+		wait = new WebDriverWait(driver, time);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By
+				.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+		wait.until(ExpectedConditions.elementToBeClickable(By
+				.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
 		boolean confirmacaoDeLogin1 = driver
 				.findElement(
 						By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[1]/div[1]/div[2]/div/a[2]/span/span/span[1]"))
@@ -74,7 +76,7 @@ public class SeleniumRepositorio {
 
 	}
 
-	public String colocarFiltro() {
+	public String colocarFiltro() throws InterruptedException {
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		WebElement setaAparecer = driver.findElement(
 				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[3]/div/div/div[33]/div/span"));
@@ -91,33 +93,55 @@ public class SeleniumRepositorio {
 				.findElement(By.xpath("/html/body/div[13]/div/div[2]/div/table/tbody/tr/td[2]/input"));
 		filtroSpace.click();
 		filtroSpace.sendKeys("SAMIR");
+		Thread.sleep(1000);
+		long time = 100;
+		wait = new WebDriverWait(driver, time);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By
+				.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+		wait.until(ExpectedConditions.elementToBeClickable(By
+				.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+		Thread.sleep(1000);
 
 		return "fitro colocado";
 
 	}
 
-	public String entrarNoProcessoAutomatico() {
+	public String entrarNoProcessoAutomatico() throws InterruptedException {
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		Thread.sleep(1000);
+		String verificacao = driver
+				.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/div[7]"))
+				.getText();
 
-		boolean confirmacaoDeExistencia = driver
-				.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[2]/div/div/div[7]"))
-				.getText().toUpperCase().contains("Sem registros para exibir");
+		System.out.println(verificacao);
+		verificacao = verificacao.replace("Sem registros para exibir", "");
+		System.out.println(verificacao);
+
+		boolean confirmacaoDeExistencia = verificacao == "";
+		System.out.println(confirmacaoDeExistencia);
 		if (confirmacaoDeExistencia == true) {
 			return "Sem registros para exibir";
-		}
+		} else {
+			long time = 100;
+			wait = new WebDriverWait(driver, time);
+			wait.until(ExpectedConditions.presenceOfElementLocated(By
+					.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+			wait.until(ExpectedConditions.elementToBeClickable(By
+					.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+			boolean confirmacaoDeAtivacao = driver
+					.findElement(By.xpath(
+							"/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[4]/div/table/tbody/tr[1]/td[9]/div"))
+					.getText().toUpperCase().contains("SAMIR");
+			if (confirmacaoDeAtivacao == false) {
+				return "Codigo das eiquetas estao errados";
+			} else {
+				WebElement processo = driver.findElement(By.xpath(
+						"/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]"));
+				processo.click();
+				return "pronto para procurar";
+			}
 
-		boolean confirmacaoDeAtivacao = driver
-				.findElement(By.xpath(
-						"/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[4]/div/table/tbody/tr[1]/td[9]/div"))
-				.getText().toUpperCase().contains("SAMIR");
-		if (confirmacaoDeAtivacao == false) {
-			return "Codigo das eiquetas estao errados";
 		}
-
-		WebElement processo = driver.findElement(By.xpath(
-				"/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]"));
-		processo.click();
-		return "pronto para procurar";
 
 	}
 
@@ -153,7 +177,107 @@ public class SeleniumRepositorio {
 
 	}
 
-	@SuppressWarnings("deprecation")
+	public boolean dataDeValidacaoDosPrev() throws InterruptedException {
+		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
+		Thread.sleep(1000);
+		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(janela.get(1));
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("treeview-1015")));
+		WebElement TabelaTref = driver.findElement(By.id("treeview-1015"));
+		List<WebElement> listaMovimentacao = new ArrayList<WebElement>(TabelaTref.findElements(By.cssSelector("tr")));
+		for (int i = 2; i < listaMovimentacao.size(); i++) {
+
+			// Providência Jurídica é o título da movimentação
+			wait.until(ExpectedConditions.presenceOfElementLocated(By
+					.xpath("//tr[" + i + "]/td[2]/div/span")));
+			wait.until(ExpectedConditions.elementToBeClickable(By
+					.xpath("//tr[" + i + "]/td[2]/div/span")));
+			Boolean existeDosPrev = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span")).getText()
+					.toUpperCase().contains("DOSSIÊ PREVIDENCIÁRIO");
+			if (existeDosPrev == true) {
+				WebElement dosClick = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span"));
+				dosClick.click();
+				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
+				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
+				campoPassElemt.click();
+				campoPassElemt.sendKeys("LIDO");
+				WebElement salvarEtiqueta = driver
+						.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
+				salvarEtiqueta.click();
+
+				driver.switchTo().frame(0);
+				try {
+					String dataValiadcaoString = driver.findElement(By.xpath("/html/body/div/p[2]/b")).getText();
+					System.out.println(dataValiadcaoString);
+					dataValiadcaoString = dataValiadcaoString
+							.replace("* Informações extraídas dos sistemas informatizados do INSS em: ", "");
+					System.out.println(dataValiadcaoString);
+
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+					formatter = formatter.withLocale(Locale.US);
+					// DateTimeFormatter dataForma = DateTimeFormatter.ofPattern("dd/MM/yyyy
+					// HH:mm:ss");
+					System.out.println("passou1");
+					LocalDateTime dataValidacao = LocalDateTime.parse(dataValiadcaoString, formatter);
+					System.out.println("passou2");
+					System.out.println(dataValidacao);
+					// Date data =
+					// Date.from(dataValidacao.atZone(ZoneId.systemDefault()).toInstant());
+					LocalDateTime dataATUALocalDateTime = LocalDateTime.now();
+					System.out.println("data de validacao ano: " + dataValidacao.getYear());
+					System.out.println("data atual ano: " + dataATUALocalDateTime.getYear());
+					System.out.println("data de validacao: " + dataValidacao.getDayOfYear());
+					System.out.println("data atual: " + dataATUALocalDateTime.getDayOfYear());
+					System.out.println("data de validacao mes: " + dataValidacao.getMonthValue());
+					System.out.println("data atual mes: " + dataATUALocalDateTime.getMonthValue());
+					if (dataATUALocalDateTime.getYear() == dataValidacao.getYear()) {
+						System.out.println("mesmo ano");
+						int x = 0;
+						x = dataATUALocalDateTime.getDayOfYear() - dataValidacao.getDayOfYear();
+						if (x <= 300) {
+							System.out.println("x é menor ou igual a 30" + x);
+							return true;
+						} else {
+
+							System.out.println("x maior que 30 dias");
+							return false;
+
+						}
+					} else {
+						if (dataATUALocalDateTime.getYear() == dataValidacao.getYear() + 1) {
+							if (dataValidacao.getMonthValue() == 12) {
+
+								int x = dataValidacao.getDayOfYear() - 333;
+								if (x <= dataATUALocalDateTime.getDayOfYear()) {
+									System.out.println("x é menor ou igual a 30" + x);
+									return true;
+								} else {
+
+									System.out.println("x maior que 30 dias");
+									return false;
+
+								}
+							}
+						} else {
+							System.out.println("ano diferente");
+							return false;
+						}
+
+					}
+
+				} catch (Exception e) {
+					System.out.println("Vish entrei no tal do catch 2");
+					// dataAjuizamento =
+					// driver.findElement(By.xpath("/html/body/div/div[5]/table/tbody/tr[3]/td[2]")).getText();
+				}
+
+				return false;
+			}
+		}
+
+		return false;
+	}
+
 	public InfomacoesDosPrev procurarDosPrev() {
 		InfomacoesDosPrev informacao = new InfomacoesDosPrev();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -169,52 +293,16 @@ public class SeleniumRepositorio {
 			if (existeDosPrev == true) {
 				WebElement dosClick = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span"));
 				dosClick.click();
-				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
-				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
-				campoPassElemt.click();
-				campoPassElemt.sendKeys("LIDO");
-				WebElement salvarEtiqueta = driver
-						.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
-				salvarEtiqueta.click();
 
 				driver.switchTo().frame(0);
-				String dataAjuizamento = "";
 				try {
-				String dataValiadcaoString = driver.findElement(By.xpath("/html/body/div/p[2]/b")).getText();
-				System.out.println(dataValiadcaoString);
-					dataValiadcaoString = dataValiadcaoString.replace("* Informações extraídas dos sistemas informatizados do INSS em: ", "");
+					String dataValiadcaoString = driver.findElement(By.xpath("/html/body/div/p[2]/b")).getText();
 					System.out.println(dataValiadcaoString);
-					
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-					formatter = formatter.withLocale(Locale.US);
-					//DateTimeFormatter dataForma = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-					LocalDateTime dataATUALocalDateTime = LocalDateTime.now();
-					System.out.println(dataATUALocalDateTime);
-					System.out.println("passou1");
-					LocalDateTime dataValidacao = LocalDateTime.parse(dataValiadcaoString, formatter);
-					System.out.println("passou2");
-					System.out.println(dataValidacao);
-					Date data = new Date();
-					for (int x = 0; x < 1000; x++) {
-						if(dataATUALocalDateTime.getDayOfMonth() == dataValidacao.getDayOfMonth() && dataATUALocalDateTime.getYear() == dataValidacao.getYear() && dataATUALocalDateTime.getMonth() == dataValidacao.getMonth()) {
-							x = 30000;
-						}
-						else if(x == 999) {
-							/*driver.switchTo().defaultContent();
-							campoPassElemt.click();
-							campoPassElemt.sendKeys("NAO");
-							salvarEtiqueta.click();*/
-							System.out.println("aquiiii");
+					dataValiadcaoString = dataValiadcaoString
+							.replace("* Informações extraídas dos sistemas informatizados do INSS em: ", "");
+					System.out.println(dataValiadcaoString);
 
-							return null;
-						}
-						data.setDate(data.getDate() + 1);
-						dataValidacao = data.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-						dataValidacao.withDayOfMonth(dataValidacao.getDayOfMonth() + 1);
-						System.out.println("data validaçao com incremento: " + dataValidacao.getDayOfMonth() + "/" + dataValidacao.getMonth() + "/" + dataValidacao.getYear());
-						System.out.println("data atual: " + dataATUALocalDateTime.getDayOfMonth()+ "/" + dataATUALocalDateTime.getMonth() + "/" + dataATUALocalDateTime.getYear());
-					 }
-					dataAjuizamento = driver.findElement(By.xpath("/html/body/div/div[1]/table/tbody/tr[2]/td"))
+					String dataAjuizamento = driver.findElement(By.xpath("/html/body/div/div[1]/table/tbody/tr[2]/td"))
 							.getText();
 					informacao.setDataAjuizamento(dataAjuizamento);
 					String dib = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[2]/td[4]"))
@@ -230,17 +318,37 @@ public class SeleniumRepositorio {
 					// driver.findElement(By.xpath("/html/body/div/div[5]/table/tbody/tr[3]/td[2]")).getText();
 				}
 
-				driver.switchTo().window(janela.get(1)).close();
-				driver.switchTo().window(janela.get(0));
-				WebElement filtroSpace = driver.findElement(By
-						.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
-				filtroSpace.click();
-
 				return informacao;
 			}
 		}
+
 		return null;
 
+	}
+
+	public void etiquetar(Boolean validacao) {
+		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
+		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.switchTo().window(janela.get(1));
+
+		String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
+		WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
+		campoPassElemt.click();
+		if (validacao == true) {
+			campoPassElemt.sendKeys("TRUE");
+		} else {
+			campoPassElemt.sendKeys("FALSE");
+		}
+
+		WebElement salvarEtiqueta = driver
+				.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
+		salvarEtiqueta.click();
+
+		driver.switchTo().window(janela.get(1)).close();
+		driver.switchTo().window(janela.get(0));
+		WebElement filtroSpace = driver.findElement(
+				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
+		filtroSpace.click();
 	}
 
 	public void quit() {

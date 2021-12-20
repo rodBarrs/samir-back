@@ -1,5 +1,9 @@
 package com.calculadora.SAMIR.Modelo;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class InfomacoesDosPrev {
 	private String numeroDoProcesso;
 	private String nome;
@@ -50,7 +54,15 @@ public class InfomacoesDosPrev {
 	public void setRmi(String rmi) {
 		this.rmi = rmi;
 	}
-	
+	public void setInformacoes(InfomacoesDosPrev inf) {
+		cpf = inf.getCpf();
+		rmi = inf.getRmi();
+		dibInicial = inf.dibInicial;
+		dibInicial = inf.getDibFinal();
+		nome =inf.getNome();
+		numeroDoProcesso = inf.getNumeroDoProcesso();
+		dataAjuizamento = inf.getDataAjuizamento();
+	}
 	
 
 }
