@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import com.calculadora.SAMIR.Modelo.Ativo;
 import com.calculadora.SAMIR.Modelo.InfomacoesDosPrev;
 import com.calculadora.SAMIR.Modelo.LoginModelo;
 
@@ -122,12 +123,12 @@ public class SeleniumRepositorio {
 		if (confirmacaoDeExistencia == true) {
 			return "Sem registros para exibir";
 		} else {
-			long time = 100;
+			long time = 15000;
 			wait = new WebDriverWait(driver, time);
-			wait.until(ExpectedConditions.presenceOfElementLocated(By
-					.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
-			wait.until(ExpectedConditions.elementToBeClickable(By
-					.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(
+					"/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+					"/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr[1]/td[3]/div/a[1]")));
 			boolean confirmacaoDeAtivacao = driver
 					.findElement(By.xpath(
 							"/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[4]/div/table/tbody/tr[1]/td[9]/div"))
@@ -185,25 +186,27 @@ public class SeleniumRepositorio {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("treeview-1015")));
 		WebElement TabelaTref = driver.findElement(By.id("treeview-1015"));
 		List<WebElement> listaMovimentacao = new ArrayList<WebElement>(TabelaTref.findElements(By.cssSelector("tr")));
-		for (int i = 2; i < listaMovimentacao.size(); i++) {
+		for (int i = listaMovimentacao.size(); i > 2; i--) {
 
 			// Providência Jurídica é o título da movimentação
-			wait.until(ExpectedConditions.presenceOfElementLocated(By
-					.xpath("//tr[" + i + "]/td[2]/div/span")));
-			wait.until(ExpectedConditions.elementToBeClickable(By
-					.xpath("//tr[" + i + "]/td[2]/div/span")));
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[" + i + "]/td[2]/div/span")));
+			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[" + i + "]/td[2]/div/span")));
+			Thread.sleep(500);
+			
 			Boolean existeDosPrev = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span")).getText()
 					.toUpperCase().contains("DOSSIÊ PREVIDENCIÁRIO");
 			if (existeDosPrev == true) {
 				WebElement dosClick = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span"));
 				dosClick.click();
-				String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
-				WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
-				campoPassElemt.click();
-				campoPassElemt.sendKeys("LIDO");
-				WebElement salvarEtiqueta = driver
-						.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
-				salvarEtiqueta.click();
+				/*
+				 * String campoPassPath =
+				 * "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input"; WebElement
+				 * campoPassElemt = driver.findElement(By.xpath(campoPassPath));
+				 * campoPassElemt.click(); campoPassElemt.sendKeys("LIDO"); WebElement
+				 * salvarEtiqueta = driver
+				 * .findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]")
+				 * ); salvarEtiqueta.click();
+				 */
 
 				driver.switchTo().frame(0);
 				try {
@@ -285,7 +288,7 @@ public class SeleniumRepositorio {
 		driver.switchTo().window(janela.get(1));
 		WebElement TabelaTref = driver.findElement(By.id("treeview-1015"));
 		List<WebElement> listaMovimentacao = new ArrayList<WebElement>(TabelaTref.findElements(By.cssSelector("tr")));
-		for (int i = 2; i < listaMovimentacao.size(); i++) {
+		for (int i = listaMovimentacao.size(); i > 2; i--) {
 
 			// Providência Jurídica é o título da movimentação
 			Boolean existeDosPrev = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span")).getText()
@@ -326,7 +329,7 @@ public class SeleniumRepositorio {
 
 	}
 
-	public void etiquetar(Boolean validacao) {
+	public void etiquetar(Boolean validacao, String beneficio, int i) {
 		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
 		driver.switchTo().window(janela.get(1));
@@ -334,11 +337,21 @@ public class SeleniumRepositorio {
 		String campoPassPath = "/html/body/div[3]/div[1]/div/div/table[1]/tbody/tr/td[2]/input";
 		WebElement campoPassElemt = driver.findElement(By.xpath(campoPassPath));
 		campoPassElemt.click();
-		if (validacao == true) {
-			campoPassElemt.sendKeys("TRUE");
-		} else {
-			campoPassElemt.sendKeys("FALSE");
+		if (i == 1){
+			if (validacao == true) {
+				campoPassElemt.sendKeys("ATIVO " + beneficio);
+			} else {
+				campoPassElemt.sendKeys("INDEFERIDO OU CESSADO");
+			}
 		}
+		else if(i ==0){
+			if (validacao == true) {
+				campoPassElemt.sendKeys("LIDO " + beneficio);
+			} else {
+				campoPassElemt.sendKeys("INVALIDO DOSPREV" + beneficio);
+			}
+		}
+		
 
 		WebElement salvarEtiqueta = driver
 				.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/a/span/span/span[2]"));
@@ -349,6 +362,35 @@ public class SeleniumRepositorio {
 		WebElement filtroSpace = driver.findElement(
 				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/a[5]/span/span/span[2]"));
 		filtroSpace.click();
+	}
+
+	public Ativo verificacaoDeAtivo() {
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS).pageLoadTimeout(1, TimeUnit.SECONDS);
+		List<String> janela = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(janela.get(1));
+		Ativo ativo = new Ativo();
+		String beneficio = null;
+		boolean verificarAtivo = false;
+		driver.switchTo().frame(0);
+		for (int j = 2; j < 100; j++) {
+			try {
+				verificarAtivo = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[" + j + "]/td[6]"))
+						.getText().toUpperCase().contains("ATIVO");
+				if (verificarAtivo) {
+					beneficio = driver.findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[" + j + "]/td[2]"))
+							.getText();
+					System.out.println(beneficio);
+					j = 100;
+				}
+			} catch (Exception e) {
+				System.out.println("Entrei no Catch");
+				break;
+				
+			}
+		}
+		ativo.setAtivo(verificarAtivo);
+		ativo.setBeneficio(beneficio);
+		return ativo;
 	}
 
 	public void quit() {
