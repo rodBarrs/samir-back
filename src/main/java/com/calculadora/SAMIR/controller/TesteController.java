@@ -122,7 +122,7 @@ public class TesteController {
 					y++;
 				}
 			}
-			String finalizacao ="Processos lidos: " + x ;
+			String finalizacao ="Processos Validos: " + x + "          invalidos: " + y;
 			try {
 	            //URL do som que no caso esta no pendrive, mais ainda é uma fase de teste.
 	            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("gemido.wav").getAbsoluteFile());

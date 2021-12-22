@@ -1,32 +1,45 @@
 package com.calculadora.SAMIR.Modelo;
 
+import java.util.List;
+
 public class TodasAsTaxasModelo {
-	private TaxaDeCorrecao correcao = new TaxaDeCorrecao();
-	private TaxaReajuste reajuste = new TaxaReajuste();
-	private Juros juros = new Juros();
+	private List<TaxaDeCorrecao> correcaoT;
+	private List<TaxaReajuste> reajusteT;
+	private List<Juros> jurosT;
 	
-	public void setTodasAsTaxasModelo(TaxaDeCorrecao correcao, TaxaReajuste reajuste, Juros juros) {
-		this.correcao = correcao;
-		this.reajuste = reajuste;
-		this.juros = juros;
+	
+
+	public TodasAsTaxasModelo(List<TaxaDeCorrecao> correcaoT, List<TaxaReajuste> reajusteT, List<Juros> jurosT) {
+		super();
+		this.correcaoT = correcaoT;
+		this.reajusteT = reajusteT;
+		this.jurosT = jurosT;
 	}
-	public TaxaDeCorrecao getCorrecao() {
-		return correcao;
+
+	public List<TaxaDeCorrecao> getCorrecaoT() {
+		return correcaoT;
 	}
-	public void setCorrecao(TaxaDeCorrecao correcao) {
-		this.correcao = correcao;
+
+	public void setCorrecaoT(List<TaxaDeCorrecao> correcaoT) {
+		this.correcaoT = correcaoT;
 	}
-	public TaxaReajuste getReajuste() {
-		return reajuste;
+
+	public List<TaxaReajuste> getReajusteT() {
+		return reajusteT;
 	}
-	public void setReajuste(TaxaReajuste reajuste) {
-		this.reajuste = reajuste;
+
+	public void setReajusteT(List<TaxaReajuste> reajusteT) {
+		this.reajusteT = reajusteT;
 	}
-	public Juros getJuros() {
-		return juros;
+
+	public List<Juros> getJurosT() {
+		return jurosT;
 	}
-	public void setJuros(Juros juros) {
-		this.juros = juros;
+
+	public void setJurosT(List<Juros> jurosT) {
+		this.jurosT = jurosT;
 	}
+
+
 	
 }

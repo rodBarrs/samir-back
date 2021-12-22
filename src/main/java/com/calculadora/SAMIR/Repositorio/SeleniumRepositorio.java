@@ -78,7 +78,7 @@ public class SeleniumRepositorio {
 	}
 
 	public String colocarFiltro() throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
 		WebElement setaAparecer = driver.findElement(
 				By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div[1]/div[3]/div/div/div[33]/div/span"));
 		setaAparecer.click();
@@ -108,7 +108,7 @@ public class SeleniumRepositorio {
 	}
 
 	public String entrarNoProcessoAutomatico() throws InterruptedException {
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS).pageLoadTimeout(30, TimeUnit.SECONDS);
 		Thread.sleep(1000);
 		String verificacao = driver
 				.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[2]/div/div/div[7]"))
@@ -237,7 +237,7 @@ public class SeleniumRepositorio {
 						System.out.println("mesmo ano");
 						int x = 0;
 						x = dataATUALocalDateTime.getDayOfYear() - dataValidacao.getDayOfYear();
-						if (x <= 300) {
+						if (x <= 30) {
 							System.out.println("x é menor ou igual a 30" + x);
 							return true;
 						} else {
