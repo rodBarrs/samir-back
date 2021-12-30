@@ -21,6 +21,7 @@ import com.calculadora.SAMIR.Modelo.LoginModelo;
 
 @Service
 public class SeleniumRepositorio {
+	//sei la
 
 	WebDriver driver;
 	WebDriverWait wait;
