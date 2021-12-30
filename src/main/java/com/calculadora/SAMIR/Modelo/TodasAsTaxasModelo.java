@@ -1,44 +1,37 @@
 package com.calculadora.SAMIR.Modelo;
 
-import java.util.List;
+import java.util.Date;
 
 public class TodasAsTaxasModelo {
-	private List<TaxaDeCorrecao> correcaoT;
-	private List<TaxaReajuste> reajusteT;
-	private List<Juros> jurosT;
+	private Date data;
+	private double reajuste;
+	private double jurosAcumulado;
+	private double correcaoAcumulado;
+	public Date getData() {
+		return data;
+	}
+	public void setData(Date data) {
+		this.data = data;
+	}
+	public double getReajuste() {
+		return reajuste;
+	}
+	public void setReajuste(double reajuste) {
+		this.reajuste = reajuste;
+	}
+	public double getJurosAcumulado() {
+		return jurosAcumulado;
+	}
+	public void setJurosAcumulado(double jurosAcumulado) {
+		this.jurosAcumulado = jurosAcumulado;
+	}
+	public double getCorrecaoAcumulado() {
+		return correcaoAcumulado;
+	}
+	public void setCorrecaoAcumulado(double correcaoAcumulado) {
+		this.correcaoAcumulado = correcaoAcumulado;
+	}
 	
-	
-
-	public TodasAsTaxasModelo(List<TaxaDeCorrecao> correcaoT, List<TaxaReajuste> reajusteT, List<Juros> jurosT) {
-		super();
-		this.correcaoT = correcaoT;
-		this.reajusteT = reajusteT;
-		this.jurosT = jurosT;
-	}
-
-	public List<TaxaDeCorrecao> getCorrecaoT() {
-		return correcaoT;
-	}
-
-	public void setCorrecaoT(List<TaxaDeCorrecao> correcaoT) {
-		this.correcaoT = correcaoT;
-	}
-
-	public List<TaxaReajuste> getReajusteT() {
-		return reajusteT;
-	}
-
-	public void setReajusteT(List<TaxaReajuste> reajusteT) {
-		this.reajusteT = reajusteT;
-	}
-
-	public List<Juros> getJurosT() {
-		return jurosT;
-	}
-
-	public void setJurosT(List<Juros> jurosT) {
-		this.jurosT = jurosT;
-	}
 
 
 	
