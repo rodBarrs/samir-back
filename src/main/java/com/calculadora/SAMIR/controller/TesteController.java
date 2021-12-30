@@ -92,7 +92,7 @@ public class TesteController {
 		
 		@PostMapping("/testeDeAtivacao")
 		public @ResponseBody String testeDeAtivacao(@RequestBody LoginModelo login) throws InterruptedException{
-			try {
+			/*try {
 	            //URL do som que no caso esta no pendrive, mais ainda é uma fase de teste.
 	            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("espartanos.wav").getAbsoluteFile());
 	            //AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("autodestruição.wav").getAbsoluteFile());
@@ -102,7 +102,7 @@ public class TesteController {
 	        } catch (Exception ex) {
 	            System.out.println("Erro ao executar SOM!");
 	            ex.printStackTrace();
-	        }
+	        }*/
 			repository.open(login);
 			repository.colocarFiltro();
 			Ativo ativo = new Ativo();
@@ -123,7 +123,8 @@ public class TesteController {
 				}
 			}
 			String finalizacao ="Processos Validos: " + x + "          invalidos: " + y;
-			try {
+			//sadbja
+			/*try {
 	            //URL do som que no caso esta no pendrive, mais ainda é uma fase de teste.
 	            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("gemido.wav").getAbsoluteFile());
 				// AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("autodestruição.wav").getAbsoluteFile());
@@ -133,7 +134,7 @@ public class TesteController {
 	        } catch (Exception ex) {
 	            System.out.println("Erro ao executar SOM!");
 	            ex.printStackTrace();
-	        }
+	        }*/
 			
 			 return finalizacao;
 			
