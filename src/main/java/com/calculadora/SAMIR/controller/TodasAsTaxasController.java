@@ -47,24 +47,25 @@ public class TodasAsTaxasController {
 						.get(indiceReajuste).getData().getYear() != correcao.get(indiceCorrecao).getData().getYear()) {
 
 					indiceCorrecao++;
-					while (reajuste.get(indiceReajuste).getData() != juros.get(indiceJuros).getData() && reajuste
-							.get(indiceReajuste).getData().getYear() != juros.get(indiceJuros).getData().getYear()) {
-						indiceJuros++;
-						if (indiceJuros == juros.size() - 1) {
-							indiceJuros = 0;
-						}
-
-					}
 					if (indiceCorrecao == correcao.size() - 1) {
 						indiceCorrecao = 0;
+						break;
+					}
+
+				}
+				while (reajuste.get(indiceReajuste).getData() != juros.get(indiceJuros).getData() && reajuste
+						.get(indiceReajuste).getData().getYear() != juros.get(indiceJuros).getData().getYear()) {
+					indiceJuros++;
+					if (indiceJuros == juros.size() - 1) {
+						indiceJuros = 0;
 					}
 
 				}
 				TodasAsTaxasModelo taxa = new TodasAsTaxasModelo();
-				if (indiceJuros <= juros.size() - 1) {
+				if (indiceJuros <= juros.size() - 1 && taxa.getData() == juros.get(indiceJuros).getData()) {
 					taxa.setJurosAcumulado(juros.get(indiceJuros).getJurosAcumulados());
 				}
-				if (indiceCorrecao <= correcao.size() - 1) {
+				if (indiceCorrecao <= correcao.size() - 1 && taxa.getData() == correcao.get(indiceCorrecao).getData()) {
 					taxa.setCorrecaoAcumulado(correcao.get(indiceCorrecao).getTaxaAcumulada());
 				}
 				taxa.setData(reajuste.get(indiceReajuste).getData());
@@ -72,7 +73,7 @@ public class TodasAsTaxasController {
 				lista[i] = taxa;
 			}
 
-			indiceCorrecao = 0;
+			indiceCorrecao++;
 			indiceJuros = 0;
 			indiceReajuste++;
 		}
@@ -92,33 +93,46 @@ public class TodasAsTaxasController {
 		int indiceReajuste = 0;
 		int indiceJuros = 0;
 		int indiceCorrecao = 0;
-
+		int j = 2;
+		for (int i = 0; i < juros.size(); i++) {
+			if(juros.get(i).getData() == correcao.get(indiceCorrecao).getData()) {
+				j = i;
+			}
+		}
+		System.out.println("aqui e o j" + j);
 		for (int i = 0; i < juros.size(); i++) {
 			TodasAsTaxasModelo taxa = new TodasAsTaxasModelo();
 			taxa.setData(juros.get(i).getData());
 			taxa.setJurosAcumulado(juros.get(i).getJurosAcumulados());
-			lista[i] = taxa;
+			lista[i] = taxa;	
+			}
+		for (int i = 2; i < juros.size(); i++) {
+			TodasAsTaxasModelo taxa = new TodasAsTaxasModelo();
+			if(indiceCorrecao < correcao.size()) {
+				taxa.setCorrecaoAcumulado(correcao.get(indiceCorrecao).getTaxaAcumulada());
+				taxa.setDataCor(correcao.get(indiceCorrecao).getData());
+				indiceCorrecao ++;
+			}
+			taxa.setData(juros.get(i).getData());
+			taxa.setJurosAcumulado(juros.get(i).getJurosAcumulados());
 			
-		}
-		for (int i = 0; i < juros.size(); i++) {
+			lista[i] = taxa;	
+			}
+		for (int i = 6; i < juros.size(); i++) {
 			TodasAsTaxasModelo taxa = new TodasAsTaxasModelo();
 			taxa = lista[i];
-			indiceCorrecao = 0;
-			while (lista[i].getData().getMonth() >= correcao.get(indiceCorrecao).getData().getMonth() && lista[i].getData().getYear() >= correcao.get(indiceCorrecao).getData().getYear()) {
-				if (indiceCorrecao == correcao.size() - 1) {
-					break;
-				}
-				indiceCorrecao++;
+			if(indiceReajuste < reajuste.size()) {
+				taxa.setDataRe(reajuste.get(indiceReajuste).getData());
+				taxa.setReajuste(reajuste.get(indiceReajuste).getReajusteAcumulado());
+				indiceReajuste ++;
 			}
-			if(indiceCorrecao != 0) {
-				indiceCorrecao --;
-			}
-			taxa.setCorrecaoAcumulado(correcao.get(indiceCorrecao).getTaxaAcumulada());
-			lista[i] = taxa;
+			taxa.setData(juros.get(i).getData());
+			taxa.setJurosAcumulado(juros.get(i).getJurosAcumulados());
 			
-		}
+			lista[i] = taxa;	
+			}
+		
 		return lista;
-	}
-	
+}
 
 }

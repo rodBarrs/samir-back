@@ -7,6 +7,21 @@ public class TodasAsTaxasModelo {
 	private double reajuste;
 	private double jurosAcumulado;
 	private double correcaoAcumulado;
+	private Date dataCor;
+	private Date dataRe;
+	
+	public Date getDataCor() {
+		return dataCor;
+	}
+	public void setDataCor(Date dataCor) {
+		this.dataCor = dataCor;
+	}
+	public Date getDataRe() {
+		return dataRe;
+	}
+	public void setDataRe(Date dataRe) {
+		this.dataRe = dataRe;
+	}
 	public Date getData() {
 		return data;
 	}
