@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Juros;
@@ -32,7 +33,7 @@ public class TodasAsTaxasController {
 
 	
 	@GetMapping("todasTaxas/{juros}/{correcao}")
-	public TodasAsTaxasModelo[] Taxas(@PathVariable("juros") int ju, @PathVariable("correcao") int cor) {
+	public @ResponseBody TodasAsTaxasModelo[] Taxas(@PathVariable("juros") int ju, @PathVariable("correcao") int cor) {
 		TodasAsTaxasModelo[] lista = new TodasAsTaxasModelo[10000];
 
 		List<Juros> juros = jurosRepository.findByTipoOrderByCodigoAsc(ju);
