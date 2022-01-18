@@ -57,7 +57,7 @@ public class TodasAsTaxasController {
 		for (int i = 2; i < juros.size(); i++) {
 			TodasAsTaxasModelo taxa = new TodasAsTaxasModelo();
 			if(indiceCorrecao < correcao.size()) {
-				taxa.setCorrecaoAcumulado(correcao.get(indiceCorrecao).getTaxaAcumulada());
+				taxa.setCorrecaoAcumulado((correcao.get(indiceCorrecao).getTaxaAcumulada() / 100) + 1);
 				taxa.setDataCor(correcao.get(indiceCorrecao).getData());
 				indiceCorrecao ++;
 			}
@@ -71,11 +71,11 @@ public class TodasAsTaxasController {
 			taxa = lista[i];
 			if(indiceReajuste < reajuste.size()) {
 				taxa.setDataRe(reajuste.get(indiceReajuste).getData());
-				taxa.setReajuste(reajuste.get(indiceReajuste).getReajusteAcumulado());
+				taxa.setReajuste((reajuste.get(indiceReajuste).getReajusteAcumulado() / 100) + 1);
 				indiceReajuste ++;
 			}
 			taxa.setData(juros.get(i).getData());
-			taxa.setJurosAcumulado(juros.get(i).getJurosAcumulados());
+			taxa.setJurosAcumulado((juros.get(i).getJurosAcumulados() / 100) + 1);
 			
 			lista[i] = taxa;	
 			}
