@@ -75,7 +75,7 @@ public class TodasAsTaxasController {
 				indiceReajuste ++;
 			}
 			taxa.setData(juros.get(i).getData());
-			taxa.setJurosAcumulado((juros.get(i).getJurosAcumulados() / 100) + 1);
+			taxa.setJurosAcumulado((juros.get(i).getJurosAcumulados() / 100));
 			
 			lista[i] = taxa;	
 			}
