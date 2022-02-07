@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Juros;
-import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Repositorio.JurosRepositorio;
 
 @RestController
@@ -46,44 +45,38 @@ public class JurosController {
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody Mensagem removerJuros(@PathVariable Integer codigo) {
-		Mensagem respostar = new Mensagem();
+	public @ResponseBody String removerJuros(@PathVariable Integer codigo) {
 		try {
 		Juros j = filtrarJurosPorCodigo(codigo);
 		this.repository.delete(j);
-		respostar.setMensagem("Juros removido");
+		return "Juros removido";
 		}catch (Exception erro) {
-			respostar.setMensagem("Falha na remoçao do Juros" +erro.getMessage() );
+			return "Falha na remoçao do Juros" +erro.getMessage();
 		}
 		
-		return respostar;
 	}
 	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
-	public Mensagem CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
 		List<Juros> taxasNovas = repository.findByTipo(tipo);
-		Mensagem reposta = new Mensagem();
 
 		if (operacao.equals("soma")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + valor);
 				repository.save(taxasNovas.get(i));
 			}
-			reposta.setMensagem("Soma executada");
-			return reposta;
+			return "Soma executada";
 		} else if (operacao.equals("subtracao")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - valor);
 				repository.save(taxasNovas.get(i));
 				
 			}
-			reposta.setMensagem("subtracao executada");
-			return reposta;
+			return "subtracao executada";
 
 		}
 		
 		else {
-			reposta.setMensagem("ERRO falha na execucao");
-			return reposta;
+			return "ERRO falha na execucao";
 
 		}
 

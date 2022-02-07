@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
@@ -42,18 +41,16 @@ public class ReajusteController {
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody Mensagem removerTaxaDeReajuste(@PathVariable Integer codigo) {
+	public @ResponseBody String removerTaxaDeReajuste(@PathVariable Integer codigo) {
 
-		Mensagem respostar = new Mensagem();
 		try {
 			TaxaReajuste j = filtrarReajusteCodigo(codigo);
 			this.repository.delete(j);
-			respostar.setMensagem("TAXA removido");
+			return "TAXA removido";
 		} catch (Exception erro) {
-			respostar.setMensagem("Falha na remoçao da TAXA" + erro.getMessage());
+			return"Falha na remoçao da TAXA" + erro.getMessage();
 		}
 
-		return respostar;
 	}
 
 

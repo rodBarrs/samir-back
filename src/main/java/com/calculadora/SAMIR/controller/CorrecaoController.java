@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.calculadora.SAMIR.Modelo.Mensagem;
 import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Repositorio.CorrecaoRepository;
 
@@ -48,45 +47,39 @@ public class CorrecaoController {
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
-	public @ResponseBody Mensagem removerTaxaDeCorrecao(@PathVariable Integer codigo) {
-		Mensagem respostar = new Mensagem();
+	public @ResponseBody String removerTaxaDeCorrecao(@PathVariable Integer codigo) {
 		try {
 			TaxaDeCorrecao j = filtrarCorrecaoCodigo(codigo);
 		this.repository.delete(j);
-		respostar.setMensagem("TAXA removido");
+		return"TAXA removido";
 		}catch (Exception erro) {
-			respostar.setMensagem("Falha na remoçao da TAXA" +erro.getMessage() );
+			return"Falha na remoçao da TAXA" +erro.getMessage();
 		}
 		
-		return respostar;
 	}
 	
 	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
-	public Mensagem CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
 		List<TaxaDeCorrecao> taxasNovas = repository.findByTipo(tipo);
-		Mensagem reposta = new Mensagem();
 
 		if (operacao.equals("multiplicacao")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * valor);
 				repository.save(taxasNovas.get(i));
 			}
-			reposta.setMensagem("Multiplicaçao executada");
-			return reposta;
+			return "Multiplicaçao executada";
 		} else if (operacao.equals("divisao")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / valor);
 				repository.save(taxasNovas.get(i));
 				
 			}
-			reposta.setMensagem("Divisao executada");
-			return reposta;
+			return"Divisao executada";
 
 		}
 		
 		else {
-			reposta.setMensagem("ERRO falha na execucao");
-			return reposta;
+			return "ERRO falha na execucao";
 
 		}
 
