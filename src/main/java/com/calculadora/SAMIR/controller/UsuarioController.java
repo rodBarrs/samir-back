@@ -44,7 +44,7 @@ public class UsuarioController {
 		return repository.save(usuario);
 	}
 	
-	@PutMapping("/salvar")
+	@PutMapping("/alterar")
 	public @ResponseBody UsuarioModelo alterar(@RequestBody UsuarioModelo usuario) {
 		return repository.save(usuario);
 	}
