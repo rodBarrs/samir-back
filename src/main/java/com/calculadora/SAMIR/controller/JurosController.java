@@ -59,13 +59,13 @@ public class JurosController {
 	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
 		List<Juros> taxasNovas = repository.findByTipo(tipo);
 
-		if (operacao.equals("soma")) {
+		if (operacao.equals("adicionar")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + valor);
 				repository.save(taxasNovas.get(i));
 			}
 			return "Soma executada";
-		} else if (operacao.equals("subtracao")) {
+		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - valor);
 				repository.save(taxasNovas.get(i));

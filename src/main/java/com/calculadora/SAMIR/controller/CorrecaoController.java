@@ -62,13 +62,13 @@ public class CorrecaoController {
 	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
 		List<TaxaDeCorrecao> taxasNovas = repository.findByTipo(tipo);
 
-		if (operacao.equals("multiplicacao")) {
+		if (operacao.equals("adicionar")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * valor);
 				repository.save(taxasNovas.get(i));
 			}
 			return "Multiplicaçao executada";
-		} else if (operacao.equals("divisao")) {
+		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / valor);
 				repository.save(taxasNovas.get(i));
