@@ -42,8 +42,31 @@ public class CorrecaoController {
 	}
 
 	@PostMapping("/salvar")
-	public @ResponseBody TaxaDeCorrecao savarTaxaDeCorrecao(@RequestBody TaxaDeCorrecao taxa) {
-		return repository.save(taxa);
+	public @ResponseBody String savarTaxaDeCorrecao(@RequestBody TaxaDeCorrecao taxa) {
+		try {
+			int size = 0;
+			size = listarTaxaDeCorrecao().size();
+			size ++;
+			size ++;
+			taxa.setCodigo(size);
+			repository.save(taxa);
+			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + " size: " + (listarTaxaDeCorrecao().size() + 1) ;
+			return text;
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
+	}
+	@PostMapping("/Listarsalvar")
+	public @ResponseBody String savarLista(@RequestBody List<TaxaDeCorrecao> taxas) {
+		try {
+			repository.saveAll(taxas);
+			return "Deu certo";
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
+		
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
@@ -58,20 +81,20 @@ public class CorrecaoController {
 		
 	}
 	
-	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
-	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+	@PutMapping("calcular/{tipo}/{operacao}")
+	public String CalcularParada (@RequestBody TaxaDeCorrecao taxa, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
 		List<TaxaDeCorrecao> taxasNovas = repository.findByTipo(tipo);
 
 		if (operacao.equals("adicionar")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * valor);
+				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * taxa.getTaxaCorrecao());
 				repository.save(taxasNovas.get(i));
 			}
 			List<TaxaDeCorrecao> lista_size = repository.findAll();
 			return "Multiplicaçao executada " + lista_size.size();
 		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / valor);
+				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / taxa.getTaxaCorrecao());
 				repository.save(taxasNovas.get(i));
 				
 			}

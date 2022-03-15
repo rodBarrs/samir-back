@@ -1,6 +1,5 @@
 package com.calculadora.SAMIR.controller;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +42,25 @@ public class JurosController {
 	@PostMapping("/salvar")
 	public @ResponseBody String savarJuros(@RequestBody Juros taxa) {
 		try {
-			taxa.setCodigo(listarJuros().size() + 1);
+			int size = 0;
+			size = listarJuros().size();
+			size ++;
+			size ++;
+			taxa.setCodigo(size);
 			repository.save(taxa);
-			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa;
+			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + "size: " + listarJuros().size() + 1 ;
 			return text;
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
+		
+	}
+	@PostMapping("/Listarsalvar")
+	public @ResponseBody String savarLista(@RequestBody List<Juros> taxas) {
+		try {
+			repository.saveAll(taxas);
+			return "Deu certo";
 		} catch (Exception e) {
 			String erro = "Erro no calculo " + e;
 			return erro;
@@ -74,6 +88,7 @@ public class JurosController {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + taxa.getJuros());
 				repository.save(taxasNovas.get(i));
 			}
+			savarJuros(taxa);
 			List<Juros> lista_size = repository.findAll();
 			return "Soma executada " + lista_size.size();
 		} else if (operacao.equals("excluir")) {
