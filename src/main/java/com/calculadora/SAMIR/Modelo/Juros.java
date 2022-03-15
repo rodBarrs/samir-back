@@ -14,7 +14,7 @@ public class Juros {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer codigo;
+	private int codigo;
 	private Date data;
 	private double juros;
 	private double jurosAcumulados;

@@ -1,6 +1,7 @@
 package com.calculadora.SAMIR.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +28,10 @@ public class UsuarioController {
 	@GetMapping("/listar")
 	public @ResponseBody List<UsuarioModelo> listar(){
 		return repository.findAll();
+	}
+	@GetMapping("procurarID/{id}")
+	public @ResponseBody Optional<UsuarioModelo> nome(@PathVariable("id") Integer id) {
+		return repository.findById(id);
 	}
 	
 	@GetMapping("/nome/{nome}")

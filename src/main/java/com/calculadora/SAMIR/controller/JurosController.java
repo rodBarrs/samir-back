@@ -1,5 +1,6 @@
 package com.calculadora.SAMIR.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,21 @@ public class JurosController {
 
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<Juros> filtrarJurosPorTipo(@PathVariable Integer tipo) {
-		return repository.findByTipoOrderByCodigoAsc(tipo);
+		return repository.findByTipo(tipo);
 	}
 
 	@PostMapping("/salvar")
-	public @ResponseBody Juros savarJuros(@RequestBody Juros taxa) {
-		return repository.save(taxa);
+	public @ResponseBody String savarJuros(@RequestBody Juros taxa) {
+		try {
+			taxa.setCodigo(listarJuros().size() + 1);
+			repository.save(taxa);
+			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa;
+			return text;
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
+		
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
@@ -55,23 +65,26 @@ public class JurosController {
 		}
 		
 	}
-	@PutMapping("calcular/{valor}/{tipo}/{operacao}")
-	public String CalcularParada (@PathVariable("valor") Double valor, @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao) {
+	@PutMapping("calcular/{tipo}/{operacao}")
+	public String CalcularParada ( @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao, @RequestBody Juros taxa) {
 		List<Juros> taxasNovas = repository.findByTipo(tipo);
 
 		if (operacao.equals("adicionar")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + valor);
+				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + taxa.getJuros());
 				repository.save(taxasNovas.get(i));
 			}
-			return "Soma executada";
+			List<Juros> lista_size = repository.findAll();
+			return "Soma executada " + lista_size.size();
 		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
-				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - valor);
+				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - taxa.getJuros());
 				repository.save(taxasNovas.get(i));
 				
 			}
-			return "subtracao executada";
+			
+			List<Juros> lista_size = repository.findAll();
+			return "subtracao executada " + lista_size.size();
 
 		}
 		
