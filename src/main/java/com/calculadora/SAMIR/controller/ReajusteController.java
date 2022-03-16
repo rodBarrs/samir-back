@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
@@ -50,6 +51,17 @@ public class ReajusteController {
 			String erro = "Erro no calculo " + e;
 			return erro;
 		}
+	}
+	@PostMapping("/Listarsalvar")
+	public @ResponseBody String savarLista(@RequestBody List<TaxaReajuste> taxas) {
+		try {
+			repository.saveAll(taxas);
+			return "Deu certo";
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
+		
 	}
 
 	@DeleteMapping("/deletar/{codigo}")
