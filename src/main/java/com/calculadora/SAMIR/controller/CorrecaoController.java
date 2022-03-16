@@ -90,8 +90,7 @@ public class CorrecaoController {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * taxa.getTaxaCorrecao());
 				repository.save(taxasNovas.get(i));
 			}
-			List<TaxaDeCorrecao> lista_size = repository.findAll();
-			return "Multiplicaçao executada " + lista_size.size();
+			return "Multiplicaçao executada " + savarTaxaDeCorrecao(taxa);
 		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / taxa.getTaxaCorrecao());

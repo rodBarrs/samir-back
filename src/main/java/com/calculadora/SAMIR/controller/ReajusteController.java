@@ -35,9 +35,21 @@ public class ReajusteController {
 	}
 
 	@PostMapping("/salvar")
-	public @ResponseBody TaxaReajuste savarTaxaDeResajuste(@RequestBody TaxaReajuste taxa) {
+	public @ResponseBody String savarTaxaDeResajuste(@RequestBody TaxaReajuste taxa) {
 
-		return repository.save(taxa);
+		try {
+			int size = 0;
+			size = listarTaxaDeReajuste().size();
+			size ++;
+			size ++;
+			taxa.setCodigo(size);
+			repository.save(taxa);
+			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + " size: " + (listarTaxaDeReajuste().size() + 1) ;
+			return text;
+		} catch (Exception e) {
+			String erro = "Erro no calculo " + e;
+			return erro;
+		}
 	}
 
 	@DeleteMapping("/deletar/{codigo}")

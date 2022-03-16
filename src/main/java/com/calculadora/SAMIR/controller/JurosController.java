@@ -36,7 +36,7 @@ public class JurosController {
 
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<Juros> filtrarJurosPorTipo(@PathVariable Integer tipo) {
-		return repository.findByTipo(tipo);
+		return repository.findByTipoOrderByCodigoAsc(tipo);
 	}
 
 	@PostMapping("/salvar")
@@ -48,7 +48,7 @@ public class JurosController {
 			size ++;
 			taxa.setCodigo(size);
 			repository.save(taxa);
-			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + "size: " + listarJuros().size() + 1 ;
+			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + "size: " + listarJuros().get(size - 2).getCodigo() ;
 			return text;
 		} catch (Exception e) {
 			String erro = "Erro no calculo " + e;
@@ -88,9 +88,8 @@ public class JurosController {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() + taxa.getJuros());
 				repository.save(taxasNovas.get(i));
 			}
-			savarJuros(taxa);
-			List<Juros> lista_size = repository.findAll();
-			return "Soma executada " + lista_size.size();
+			
+			return "Soma executada " + savarJuros(taxa);
 		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setJurosAcumulados(taxasNovas.get(i).getJurosAcumulados() - taxa.getJuros());
@@ -98,8 +97,7 @@ public class JurosController {
 				
 			}
 			
-			List<Juros> lista_size = repository.findAll();
-			return "subtracao executada " + lista_size.size();
+			return "subtracao executada ";
 
 		}
 		
