@@ -47,13 +47,17 @@ public class CorrecaoController {
 			int size = 0;
 			size = listarTaxaDeCorrecao().size();
 			size ++;
-			size ++;
 			taxa.setCodigo(size);
 			repository.save(taxa);
 			String text = "calculo feito com sucesso, id do ultimo elemento é: " + taxa.getCodigo() + " size: " + (listarTaxaDeCorrecao().size() + 1) ;
 			return text;
 		} catch (Exception e) {
-			String erro = "Erro no calculo " + e;
+			int size = 0;
+			size = listarTaxaDeCorrecao().size();
+			size ++;
+			size ++;
+			size ++;
+			String erro = "Erro no calculo " + size + "  " + e;
 			return erro;
 		}
 	}
@@ -90,7 +94,7 @@ public class CorrecaoController {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() * taxa.getTaxaCorrecao());
 				repository.save(taxasNovas.get(i));
 			}
-			return "Multiplicaçao executada " + savarTaxaDeCorrecao(taxa);
+			return "Multiplicaçao executada " + listarTaxaDeCorrecao().size() + "  " + savarTaxaDeCorrecao(taxa);
 		} else if (operacao.equals("excluir")) {
 			for (int i = 0; i < taxasNovas.size(); i++) {
 				taxasNovas.get(i).setTaxaAcumulada(taxasNovas.get(i).getTaxaAcumulada() / taxa.getTaxaCorrecao());

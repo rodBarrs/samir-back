@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.calculadora.SAMIR.Modelo.TaxaDeCorrecao;
 import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.ReajusteRepositorio;
 
@@ -27,7 +26,7 @@ public class ReajusteController {
 
 	@GetMapping("/listar")
 	public @ResponseBody List<TaxaReajuste> listarTaxaDeReajuste() {
-		return repository.findAll();
+		return repository.findAllByOrderByDataAsc();
 	}
 
 	@GetMapping("/procurarPorCodigo/{codigo}")
