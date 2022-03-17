@@ -36,9 +36,9 @@ public class TodasAsTaxasController {
 	public @ResponseBody TodasAsTaxasModelo[] Taxas(@PathVariable("juros") int ju, @PathVariable("correcao") int cor) {
 		TodasAsTaxasModelo[] lista = new TodasAsTaxasModelo[10000];
 
-		List<Juros> juros = jurosRepository.findByTipoOrderByCodigoAsc(ju);
-		List<TaxaDeCorrecao> correcao = correcaoRepository.findByTipoOrderByCodigoAsc(cor);
-		List<TaxaReajuste> reajuste = reajusteRepository.findAll();
+		List<Juros> juros = jurosRepository.findByTipoOrderByDataAsc(ju);
+		List<TaxaDeCorrecao> correcao = correcaoRepository.findByTipoOrderByDataAsc(cor);
+		List<TaxaReajuste> reajuste = reajusteRepository.findAllByOrderByDataAsc();
 		int indiceReajuste = 0;
 		int indiceCorrecao = 0;
 		int j = 2;
