@@ -36,7 +36,7 @@ public class JurosController {
 
 	@GetMapping("/procurarPorTipo/{tipo}")
 	public @ResponseBody List<Juros> filtrarJurosPorTipo(@PathVariable Integer tipo) {
-		return repository.findByTipoOrderByCodigoAsc(tipo);
+		return repository.findByTipoOrderByDataAsc(tipo);
 	}
 
 	@PostMapping("/salvar")

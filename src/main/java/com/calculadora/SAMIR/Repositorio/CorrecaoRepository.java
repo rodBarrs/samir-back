@@ -17,6 +17,8 @@ public interface CorrecaoRepository extends JpaRepository<TaxaDeCorrecao, Intege
 	
 	
 	List<TaxaDeCorrecao> findByTipoOrderByCodigoAsc(int tipo);
+	
+	List<TaxaDeCorrecao> findByTipoOrderByDataAsc(int tipo);
 
 	/* cadastrar taxa De Correcao */
 //	<taxaSalvar extends taxaDeCorrecao> taxaSalvar save (taxaSalvar salvar);

@@ -15,7 +15,9 @@ public interface JurosRepositorio extends JpaRepository<Juros, Integer> {
 	Juros findByCodigo(Integer codigo);
 	
 	List<Juros> findByTipoOrderByCodigoAsc(Integer tipo);
-
+	
+	List<Juros> findByTipoOrderByDataAsc(Integer tipo);
+ 
 	/* cadastrar juros */
 	<JurosSalvar extends Juros> JurosSalvar save(JurosSalvar salvar);
 
