@@ -1,5 +1,11 @@
 package com.calculadora.SAMIR.controller;
 
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +39,83 @@ public class TodasAsTaxasController {
 
 	
 	@GetMapping("todasTaxas/{juros}/{correcao}")
-	public @ResponseBody TodasAsTaxasModelo[] Taxas(@PathVariable("juros") int ju, @PathVariable("correcao") int cor) {
-		TodasAsTaxasModelo[] lista = new TodasAsTaxasModelo[10000];
+	public @ResponseBody List<TodasAsTaxasModelo> Taxas(@PathVariable("juros") int ju, @PathVariable("correcao") int cor) {
+		List<TodasAsTaxasModelo> lista = new ArrayList<TodasAsTaxasModelo>();
+		TodasAsTaxasModelo taxaModelo = new TodasAsTaxasModelo();
 
 		List<Juros> juros = jurosRepository.findByTipoOrderByDataAsc(ju);
 		List<TaxaDeCorrecao> correcao = correcaoRepository.findByTipoOrderByDataAsc(cor);
 		List<TaxaReajuste> reajuste = reajusteRepository.findAllByOrderByDataAsc();
 		int indiceReajuste = 0;
 		int indiceCorrecao = 0;
-		int j = 2;
-		for (int i = 0; i < juros.size(); i++) {
+		int indiceJuros = 2;
+		int fim = 0;
+		
+		System.out.println("Size juros: " + juros.size());
+		System.out.println("Size correcao: " + correcao.size());
+		System.out.println("Size reajuste: " + reajuste.size());
+		System.out.println("caralho");
+
+		try {
+			for (int j = 0; j < reajuste.size(); j++){
+				taxaModelo.setDataRe(reajuste.get(j).getData());
+				taxaModelo.setReajuste(reajuste.get(j).getReajusteAcumulado());
+				Date date;
+				LocalDate reajusteLocal = reajuste.get(j).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				for(int i = 0; i < juros.size(); i++) {
+					LocalDate jurosLocal = juros.get(i).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					if(juros.get(i).getData().getMonth() == reajuste.get(j).getData().getMonth() && juros.get(i).getData().getYear() == reajuste.get(j).getData().getYear()){
+						System.out.println("mes juros: " + juros.get(i).getData().getMonth()  +"  " + reajuste.get(j).getData().getMonth() );
+						System.out.println("ano juros: " + juros.get(i).getData().getYear() + "  " + reajuste.get(j).getData().getYear());
+						taxaModelo.setData(juros.get(i).getData());
+						taxaModelo.setJurosAcumulado(juros.get(i).getJurosAcumulados());
+						Object object;
+						i = juros.size();
+					}
+				}
+				for(int z = 0; z < correcao.size(); z++) {
+					if(correcao.get(z).getData().getMonth() == reajuste.get(j).getData().getMonth() && correcao.get(z).getData().getYear() == reajuste.get(j).getData().getYear()){
+						System.out.println("mes correcao: " + correcao.get(z).getData().getMonth() + "  " + reajuste.get(j).getData().getMonth());
+						System.out.println("Ano correcao: " + correcao.get(z).getData().getYear() + "  " + reajuste.get(j).getData().getYear() );
+						taxaModelo.setCorrecaoAcumulado(correcao.get(z - 1).getTaxaAcumulada());
+						taxaModelo.setDataCor(correcao.get(z - 1).getData());
+
+						z = correcao.size();
+					}
+				}
+				lista.add(taxaModelo);
+				taxaModelo = new TodasAsTaxasModelo();
+			}
+
+			System.out.println(indiceCorrecao >= correcao.size());
+			System.out.println(indiceJuros >= juros.size());
+			System.out.println(indiceReajuste >= reajuste.size());
+			/*while(indiceCorrecao <= correcao.size() || indiceJuros <= juros.size()  || indiceReajuste <= reajuste.size()) {
+
+					taxaModelo.setCorrecaoAcumulado(correcao.get(indiceCorrecao).getTaxaAcumulada());
+					taxaModelo.setDataCor(correcao.get(indiceCorrecao).getData());
+					indiceCorrecao ++;
+					System.out.println("index do correcao: " + indiceCorrecao);
+					taxaModelo.setData(juros.get(indiceJuros).getData());
+					taxaModelo.setJurosAcumulado(juros.get(indiceJuros).getJurosAcumulados());
+					indiceJuros++;
+					System.out.println("index do correcao: " + indiceCorrecao);
+					taxaModelo.setDataRe(reajuste.get(indiceReajuste).getData());
+					taxaModelo.setReajuste(reajuste.get(indiceReajuste).getReajusteAcumulado());
+					System.out.println("index do Juros: " + indiceJuros);
+					indiceJuros++;
+				lista.add(taxaModelo);
+				taxaModelo = new TodasAsTaxasModelo();
+
+			}*/
+		}
+		catch (Exception e){
+			System.out.println("errro: " + e);
+		}
+
+		
+		
+		/*for (int i = 0; i < juros.size(); i++) {
 			if(juros.get(i).getData() == correcao.get(indiceCorrecao).getData()) {
 				j = i;
 			}
@@ -78,7 +151,7 @@ public class TodasAsTaxasController {
 			taxa.setJurosAcumulado((juros.get(i).getJurosAcumulados() / 100));
 			
 			lista[i] = taxa;	
-			}
+			}*/
 		
 		return lista;
 }
