@@ -46,6 +46,15 @@ public class TodasAsTaxasModelo {
 	public void setCorrecaoAcumulado(double correcaoAcumulado) {
 		this.correcaoAcumulado = correcaoAcumulado;
 	}
+	public void  limpar(){
+		 this.data = new Date();
+		 this.reajuste = 0;
+		 this.jurosAcumulado = 0;
+		 this.correcaoAcumulado = 0;
+		 this.dataCor = new Date();
+		 this.dataRe = new Date();
+	}
+
 	
 
 
