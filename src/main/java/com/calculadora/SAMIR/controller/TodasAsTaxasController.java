@@ -77,8 +77,8 @@ public class TodasAsTaxasController {
 					if(correcao.get(z).getData().getMonth() == reajuste.get(j).getData().getMonth() && correcao.get(z).getData().getYear() == reajuste.get(j).getData().getYear()){
 						System.out.println("mes correcao: " + correcao.get(z).getData().getMonth() + "  " + reajuste.get(j).getData().getMonth());
 						System.out.println("Ano correcao: " + correcao.get(z).getData().getYear() + "  " + reajuste.get(j).getData().getYear() );
-						taxaModelo.setCorrecaoAcumulado(correcao.get(z - 1).getTaxaAcumulada() + 1);
-						taxaModelo.setDataCor(correcao.get(z - 1).getData());
+						taxaModelo.setCorrecaoAcumulado(correcao.get(z).getTaxaAcumulada() + 1);
+						taxaModelo.setDataCor(correcao.get(z).getData());
 
 						z = correcao.size();
 					}

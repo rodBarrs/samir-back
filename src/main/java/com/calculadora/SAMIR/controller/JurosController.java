@@ -26,7 +26,7 @@ public class JurosController {
 	private JurosRepositorio repository;
 	@GetMapping("/listar")
 	public @ResponseBody List<Juros> listarJuros() {
-		return repository.findAll();
+		return repository.findAllByOrderByCodigoAsc();
 	}
 
 	@GetMapping("/procurarPorCodigo/{codigo}")

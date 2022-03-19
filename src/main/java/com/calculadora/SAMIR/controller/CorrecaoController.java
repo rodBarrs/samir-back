@@ -28,7 +28,7 @@ public class CorrecaoController {
 
 	@GetMapping("/listar")
 	public @ResponseBody List<TaxaDeCorrecao> listarTaxaDeCorrecao() {
-		return repository.findAll();
+		return repository.findAllByOrderByCodigoAsc();
 	}
 
 	@GetMapping("/procurarPorCodigo/{codigo}")
