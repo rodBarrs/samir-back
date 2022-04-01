@@ -23,6 +23,7 @@ public class TaxaDeCorrecao {
 	private int referencia;
 	private int tipo;
 	private String descricao;
+	//juros
 
 	public int getCodigo() {
 		return codigo;
