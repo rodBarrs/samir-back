@@ -59,7 +59,7 @@ public class TodasAsTaxasController {
 		try {
 			for (int j = 0; j < reajuste.size(); j++){
 				taxaModelo.setDataRe(reajuste.get(j).getData());
-				taxaModelo.setReajuste((reajuste.get(j).getReajusteAcumulado() / 100) + 1);
+				taxaModelo.setReajuste(reajuste.get(j).getReajusteAcumulado());
 				Date date;
 				LocalDate reajusteLocal = reajuste.get(j).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				for(int i = 0; i < juros.size(); i++) {

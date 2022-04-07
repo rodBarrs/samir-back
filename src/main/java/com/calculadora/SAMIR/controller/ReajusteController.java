@@ -73,8 +73,24 @@ public class ReajusteController {
 		} catch (Exception erro) {
 			return"Falha na remoçao da TAXA" + erro.getMessage();
 		}
+		
 
 	}
+	@DeleteMapping("/armageddon/1234")
+	public @ResponseBody String deletarTudo(@RequestBody List<TaxaReajuste> taxa) {
 
+		try {
+			for(int i = 0; i< taxa.size(); i++) {
+				int codigo = taxa.get(i).getCodigo();
+				TaxaReajuste j = filtrarReajusteCodigo(codigo);
+				this.repository.delete(j);	
+			}
+			return "TAXA removido";
+		} catch (Exception erro) {
+			return"Falha na remoçao da TAXA" + erro.getMessage();
+		}
+		
+
+	}
 
 }
