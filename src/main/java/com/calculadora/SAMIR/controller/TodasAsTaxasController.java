@@ -57,30 +57,31 @@ public class TodasAsTaxasController {
 		System.out.println("caralho");
 
 		try {
-			for (int j = 0; j < reajuste.size(); j++){
-				taxaModelo.setDataRe(reajuste.get(j).getData());
-				taxaModelo.setReajuste(reajuste.get(j).getReajusteAcumulado());
+			for (int z = 0; z < correcao.size(); z++){
+				
 				Date date;
-				LocalDate reajusteLocal = reajuste.get(j).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				LocalDate reajusteLocal = correcao.get(z).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				System.out.println("mes correcao: " + correcao.get(z).getData().getMonth() + "  " + correcao.get(z).getData().getMonth());
+				System.out.println("Ano correcao: " + correcao.get(z).getData().getYear() + "  " + correcao.get(z).getData().getYear() );
+				taxaModelo.setCorrecaoAcumulado((correcao.get(z).getTaxaAcumulada()));
+				taxaModelo.setDataCor(correcao.get(z).getData());
 				for(int i = 0; i < juros.size(); i++) {
 					LocalDate jurosLocal = juros.get(i).getData().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-					if(juros.get(i).getData().getMonth() == reajuste.get(j).getData().getMonth() && juros.get(i).getData().getYear() == reajuste.get(j).getData().getYear()){
-						System.out.println("mes juros: " + juros.get(i).getData().getMonth()  +"  " + reajuste.get(j).getData().getMonth() );
-						System.out.println("ano juros: " + juros.get(i).getData().getYear() + "  " + reajuste.get(j).getData().getYear());
+					if(juros.get(i).getData().getMonth() == correcao.get(z).getData().getMonth() && juros.get(i).getData().getYear() == correcao.get(z).getData().getYear()){
+						System.out.println("mes juros: " + juros.get(i).getData().getMonth()  +"  " + correcao.get(z).getData().getMonth() );
+						System.out.println("ano juros: " + juros.get(i).getData().getYear() + "  " + correcao.get(z).getData().getYear());
 						taxaModelo.setData(juros.get(i).getData());
 						taxaModelo.setJurosAcumulado((juros.get(i).getJurosAcumulados() / 100));
 						Object object;
 						i = juros.size();
 					}
 				}
-				for(int z = 0; z < correcao.size(); z++) {
+				for(int j = 0; j < reajuste.size(); j++ ) {
 					if(correcao.get(z).getData().getMonth() == reajuste.get(j).getData().getMonth() && correcao.get(z).getData().getYear() == reajuste.get(j).getData().getYear()){
-						System.out.println("mes correcao: " + correcao.get(z).getData().getMonth() + "  " + reajuste.get(j).getData().getMonth());
-						System.out.println("Ano correcao: " + correcao.get(z).getData().getYear() + "  " + reajuste.get(j).getData().getYear() );
-						taxaModelo.setCorrecaoAcumulado((correcao.get(z).getTaxaAcumulada()));
-						taxaModelo.setDataCor(correcao.get(z).getData());
-
-						z = correcao.size();
+						taxaModelo.setDataRe(reajuste.get(j).getData());
+						taxaModelo.setReajuste(reajuste.get(j).getReajusteAcumulado());
+						
+						j = reajuste.size();
 					}
 				}
 				lista.add(taxaModelo);
