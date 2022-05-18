@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Beneficios;
+import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.BenefecioRepository;
 
 @RestController
@@ -39,5 +41,22 @@ public class BeneficioController {
 	@PostMapping("/salvarLista")
 	public @ResponseBody List<Beneficios> salvarLista(@RequestBody List<Beneficios> list){
 		return repository.saveAll(list);
+	}
+	@DeleteMapping("/armageddon/1234")
+	public @ResponseBody String deletarTudo(@RequestBody String taxa) {
+		if(taxa=="1234") {
+			try {
+				this.repository.deleteAll();	
+			return "TAXA removido";
+		} catch (Exception erro) {
+			return"Falha na remoçao da TAXA" + erro.getMessage();
+		}
+		}
+		else {
+			return "Armageddon concluido com sucesso";
+		}
+		
+		
+
 	}
 }
