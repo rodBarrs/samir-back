@@ -15,13 +15,12 @@ public class SalarioMinimo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private float value;
-	private Date data;
-	public float getValue() {
-		return value;
+	private float valor;
+	public float getValor() {
+		return valor;
 	}
-	public void setValue(float value) {
-		this.value = value;
+	public void setValor(float valor) {
+		this.valor = valor;
 	}
 	public Date getData() {
 		return data;
@@ -29,5 +28,6 @@ public class SalarioMinimo {
 	public void setData(Date data) {
 		this.data = data;
 	}
+	private Date data;
 	
 }

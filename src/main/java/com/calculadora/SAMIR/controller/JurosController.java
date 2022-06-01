@@ -79,6 +79,16 @@ public class JurosController {
 		}
 		
 	}
+	@DeleteMapping("/deletarALL")
+	public @ResponseBody String deletarLista() {
+		try {
+			repository.deleteAll();
+		return "Juros removidos";
+		}catch (Exception erro) {
+			return "Falha na remoçao do Juros" +erro.getMessage();
+		}
+		
+	}
 	@PutMapping("calcular/{tipo}/{operacao}")
 	public String CalcularParada ( @PathVariable("tipo") int tipo, @PathVariable("operacao") String operacao, @RequestBody Juros taxa) {
 		List<Juros> taxasNovas = repository.findByTipo(tipo);
