@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class TaxaDeCorrecao {
 	//teste no heroku
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codigo;
 	private Date data;
 	private double fator;

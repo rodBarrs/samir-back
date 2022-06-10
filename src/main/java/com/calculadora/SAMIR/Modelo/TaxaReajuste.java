@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "TaxaReajuste")
 public class TaxaReajuste {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int codigo;
 	private Date data;
 	private double reajuste;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class CalculoEmLote {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String numeroDoProcesso;
@@ -16,16 +16,71 @@ public class CalculoEmLote {
     private String cpf;
     private String termoInicial;
     private String termoFinal;
-    private String rmi;
+    private float rmi;
     private String beneficio;
     private String numeroDoBeneficio;
     private String dataDePagamento;
     private String citacao;
     private String aps;
-    private BeneficioAcumulado[] beneficioAcumulados;
+    private boolean recebeuBeneficio;
+    private String[] nomeBeneficioBeneficioAcumulado;
+    private String[] dataDeInicioBeneficioAcumulado;
+    private String[] dataFinalBeneficioAcumulado;
+    private String[] rmilBeneficioAcumulado;
+
+
+
+    //    @JoinColumn(name = "beneficio_acumulados")
+//    private BeneficioAcumulado[] beneficioAcumulados;
     private String honorarioAdvocativosData;
-    private String  honorariosAdvocativos;
-    private UsuarioModelo usuario;
+    private float  honorariosAdvocativos;
+    private float acordo;
+    private int tipo;
+    private int correcao;
+    private boolean possuiDecimoTerceiro;
+    private boolean possuiJuros;
+    private boolean alcada;
+    private int usuario;
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+    }
+
+    public String[] getNomeBeneficioBeneficioAcumulado() {
+        return nomeBeneficioBeneficioAcumulado;
+    }
+
+    public void setNomeBeneficioBeneficioAcumulado(String[] nomeBeneficioBeneficioAcumulado) {
+        this.nomeBeneficioBeneficioAcumulado = nomeBeneficioBeneficioAcumulado;
+    }
+
+    public String[] getDataDeInicioBeneficioAcumulado() {
+        return dataDeInicioBeneficioAcumulado;
+    }
+
+    public void setDataDeInicioBeneficioAcumulado(String[] dataDeInicioBeneficioAcumulado) {
+        this.dataDeInicioBeneficioAcumulado = dataDeInicioBeneficioAcumulado;
+    }
+
+    public String[] getDataFinalBeneficioAcumulado() {
+        return dataFinalBeneficioAcumulado;
+    }
+
+    public void setDataFinalBeneficioAcumulado(String[] dataFinalBeneficioAcumulado) {
+        this.dataFinalBeneficioAcumulado = dataFinalBeneficioAcumulado;
+    }
+
+    public String[] getRmilBeneficioAcumulado() {
+        return rmilBeneficioAcumulado;
+    }
+
+    public void setRmilBeneficioAcumulado(String[] rmilBeneficioAcumulado) {
+        this.rmilBeneficioAcumulado = rmilBeneficioAcumulado;
+    }
 
     public int getId() {
         return id;
@@ -83,11 +138,11 @@ public class CalculoEmLote {
         this.termoFinal = termoFinal;
     }
 
-    public String getRmi() {
+    public float getRmi() {
         return rmi;
     }
 
-    public void setRmi(String rmi) {
+    public void setRmi(float rmi) {
         this.rmi = rmi;
     }
 
@@ -131,13 +186,15 @@ public class CalculoEmLote {
         this.aps = aps;
     }
 
-    public BeneficioAcumulado[] getBeneficioAcumulados() {
-        return beneficioAcumulados;
+    public boolean isRecebeuBeneficio() {
+        return recebeuBeneficio;
     }
 
-    public void setBeneficioAcumulados(BeneficioAcumulado[] beneficioAcumulados) {
-        this.beneficioAcumulados = beneficioAcumulados;
+    public void setRecebeuBeneficio(boolean recebeuBeneficio) {
+        this.recebeuBeneficio = recebeuBeneficio;
     }
+
+
 
     public String getHonorarioAdvocativosData() {
         return honorarioAdvocativosData;
@@ -147,19 +204,62 @@ public class CalculoEmLote {
         this.honorarioAdvocativosData = honorarioAdvocativosData;
     }
 
-    public String getHonorariosAdvocativos() {
+    public float getHonorariosAdvocativos() {
         return honorariosAdvocativos;
     }
 
-    public void setHonorariosAdvocativos(String honorariosAdvocativos) {
+    public void setHonorariosAdvocativos(float honorariosAdvocativos) {
         this.honorariosAdvocativos = honorariosAdvocativos;
     }
 
-    public UsuarioModelo getUsuario() {
-        return usuario;
+    public float getAcordo() {
+        return acordo;
     }
 
-    public void setUsuario(UsuarioModelo usuario) {
-        this.usuario = usuario;
+    public void setAcordo(float acordo) {
+        this.acordo = acordo;
     }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getCorrecao() {
+        return correcao;
+    }
+
+    public void setCorrecao(int correcao) {
+        this.correcao = correcao;
+    }
+
+    public boolean isPossuiDecimoTerceiro() {
+        return possuiDecimoTerceiro;
+    }
+
+    public void setPossuiDecimoTerceiro(boolean possuiDecimoTerceiro) {
+        this.possuiDecimoTerceiro = possuiDecimoTerceiro;
+    }
+
+    public boolean isPossuiJuros() {
+        return possuiJuros;
+    }
+
+    public void setPossuiJuros(boolean possuiJuros) {
+        this.possuiJuros = possuiJuros;
+    }
+
+    public boolean isAlcada() {
+        return alcada;
+    }
+
+    public void setAlcada(boolean alcada) {
+        this.alcada = alcada;
+    }
+
+
+
 }
