@@ -9,10 +9,12 @@ import java.util.List;
 
 public interface CalculoEmLoteRepository extends JpaRepository <CalculoEmLote, Integer> {
 
-    CalculoEmLote findByNome(String name);
+    CalculoEmLote findByNome(String nome);
 
 
     CalculoEmLote findByNumeroDoProcesso(String numeroDoProcesso);
+
+    List<CalculoEmLote> findByUsuario(int usuario);
 
     //List<CalculoEmLote> findByUsuario(UsuarioModelo usuario);
 

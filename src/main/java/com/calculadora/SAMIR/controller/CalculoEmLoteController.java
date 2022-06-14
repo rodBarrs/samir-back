@@ -24,8 +24,15 @@ public class CalculoEmLoteController {
     }
     @PostMapping("/ProcurarPorName")
     public @ResponseBody
-    CalculoEmLote procurarPorName(@RequestBody String name) {
-        return repository.findByNome(name);
+    CalculoEmLote procurarPorNome(@RequestBody CalculoEmLote name) {
+        System.out.println("aqui");
+//        try {
+//            return repository.findByNome(name.getNome());
+//        } catch (Exception e) {
+//            return null;
+//        }
+
+        return repository.findByNome(name.getNome());
     }
 
     @GetMapping("/procurarPorCodigo/{codigo}")
@@ -33,35 +40,67 @@ public class CalculoEmLoteController {
     Optional<CalculoEmLote> filtrarCorrecaoCodigo(@PathVariable Integer codigo) {
         return repository.findById(codigo);
     }
+    @GetMapping("/procurarPorUsuario/{usuario}")
+    public @ResponseBody
+    List<CalculoEmLote> filtarUsuario(@PathVariable Integer usuario) {
+        return repository.findByUsuario(usuario);
+    }
 
     @PostMapping("/salvar")
     public @ResponseBody
     CalculoEmLote salvarCalculoEmLote(@RequestBody CalculoEmLote calculoEmLote) {
-        return repository.save(calculoEmLote);
+        try {
+            return repository.save(calculoEmLote);
+        }  catch (Exception e) {
+            return null;
+        }
+
 
     }
     @PutMapping("/alterar")
     public @ResponseBody
     CalculoEmLote alterar(@RequestBody CalculoEmLote calculoEmLote) {
-        return repository.save(calculoEmLote);
+        try {
+            return repository.save(calculoEmLote);
+        }  catch (Exception e) {
+            return null;
+        }
+
 
     }
 
-    @PostMapping("/salvrLista")
+    @PostMapping("/salvarLista")
     public @ResponseBody
     List<CalculoEmLote> salvarLista(@RequestBody List<CalculoEmLote> list){
-        return repository.saveAll(list);
+        try {
+            return repository.saveAll(list);
+        } catch (Exception e) {
+            return null;
+        }
+
+
     }
 
     @DeleteMapping("/deletar")
     public @ResponseBody CalculoEmLote deletar(@RequestBody CalculoEmLote calculoEmLote){
-         repository.delete(calculoEmLote);
-         return calculoEmLote;
+        try {
+            repository.delete(calculoEmLote);
+            return calculoEmLote;
+        } catch (Exception e) {
+            return null;
+        }
+
+
     }
     @DeleteMapping("/deletarALL")
     public @ResponseBody List<CalculoEmLote> deletarALL(@RequestBody List<CalculoEmLote> list){
-        repository.deleteAll(list);
-        return list;
+        try {
+            repository.deleteAll(list);
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 
