@@ -12,7 +12,7 @@ public class InfoCalculo {
 	private int tipoCorrecao;
 	private boolean salarioMinimo;
 	private boolean limiteMinimoMaximo;
-	
+	private String dibAnterior;
 	public String getDib() {
 		return dib;
 	}
@@ -78,6 +78,12 @@ public class InfoCalculo {
 	}
 	public void setLimiteMinimoMaximo(boolean limiteMinimoMaximo) {
 		this.limiteMinimoMaximo = limiteMinimoMaximo;
+	}
+	public String getDibAnterior() {
+		return dibAnterior;
+	}
+	public void setDibAnterior(String dibAnterior) {
+		this.dibAnterior = dibAnterior;
 	}
 	
 }
