@@ -41,9 +41,9 @@ public class CalcauloController {
 	@PostMapping("/calcular")
 	public @ResponseBody Object calcular(@RequestBody InfoCalculo informacoes) {
 		try {
-			System.out.println("AQUI");
-			System.out.println(informacoes);
-			System.out.println("salario: " + informacoes.getIncioJuros());
+//			System.out.println("AQUI");
+//			System.out.println(informacoes);
+//			System.out.println("salario: " + informacoes.getAtulizacao());
 			String[] arrayDib = informacoes.getDib().split("/");
 			int mesDib = Integer.parseInt(arrayDib[1]);
 			int anoDib = Integer.parseInt(arrayDib[2]);
@@ -57,8 +57,8 @@ public class CalcauloController {
 			int anoIncioJuros = 0;
 			if (informacoes.getIncioJuros() != null) {
 				String[] arrayInicioJuros = informacoes.getIncioJuros().split("/");
-				mesIncioJuros = Integer.parseInt(arrayInicioJuros[0]) - 1;
-				anoIncioJuros = Integer.parseInt(arrayInicioJuros[1]);
+				mesIncioJuros = Integer.parseInt(arrayInicioJuros[1]) - 1;
+				anoIncioJuros = Integer.parseInt(arrayInicioJuros[2]);
 				if (mesIncioJuros == 0) {
 					mesIncioJuros = 12;
 					anoIncioJuros--;
@@ -107,7 +107,7 @@ public class CalcauloController {
 						reajuste = reajusteAcumulado;
 					}
 					// verifica se no calculo tem o juros
-					if (informacoes.isJuros()) {
+					if (informacoes.isJuros() || informacoes.getIncioJuros() != null) {
 						jurosAcumulado = calculoJuros(mesCalculo, anoCalculo, listJuros, mesAtualizacao, anoAtualizacao,
 								mesIncioJuros, anoIncioJuros, dateFormat);
 					}
@@ -188,6 +188,10 @@ public class CalcauloController {
 	@PostMapping("/alcada")
 	public @ResponseBody Object alcada(@RequestBody InfoCalculo informacoes) {
 		try {
+			System.out.println("alcada");
+			System.out.println("alcada: " + informacoes.getDib());
+			System.out.println("alcada: " + informacoes.getDip());
+			System.out.println("alcada: " + informacoes.getAtulizacao());
 			String[] arrayDib = informacoes.getDib().split("/");
 			int mesDib = Integer.parseInt(arrayDib[1]);
 			int anoDib = Integer.parseInt(arrayDib[2]);
@@ -237,6 +241,7 @@ public class CalcauloController {
 			}
 			return listCalculo;
 		} catch (Exception e) {
+			System.err.println(e);
 			return e;
 		}
 	}
@@ -244,6 +249,9 @@ public class CalcauloController {
 	@PostMapping("/beneficioAcumulado")
 	public @ResponseBody Object beneficioAcumulado(@RequestBody InfoCalculo informacoes) {
 		try {
+			System.out.println("AQUI");
+			System.out.println(informacoes);
+			System.out.println("salario: " + informacoes.getDib());
 			String[] arrayDib = informacoes.getDib().split("/");
 			int mesDib = Integer.parseInt(arrayDib[1]);
 			int anoDib = Integer.parseInt(arrayDib[2]);
@@ -320,7 +328,22 @@ public class CalcauloController {
 					}
 					// para o calculo
 					if (mesDip == mesCalculo && anoCalculo == anoDip) {
+						float salario = listCalculo.get(listCalculo.size() - 1).getSalario() / 30;
+						int dia = Integer.parseInt(arrayDip[0]);
+						if(dia > 30) {
+							dia = 30;
+						}
+						listCalculo.get(listCalculo.size() - 1).setSalario(salario * dia);
 						return listCalculo;
+					}
+					if(confirmadoData == 0) {
+						float salario = listCalculo.get(0).getSalario() / 30;
+						int dia = Integer.parseInt(arrayDib[0]);
+						if(dia > 30) {
+							dia = 30;
+						}
+						dia = ((dia - 30) * -1) + 1;
+						listCalculo.get(0).setSalario(salario * dia);
 					}
 					// verifica a data para fazer o colocar o reajuste
 					if (mesCalculo == 1 || confirmadoData == 0) {
@@ -339,6 +362,7 @@ public class CalcauloController {
 			return listCalculo;
 
 		} catch (Exception e) {
+			System.err.println(e);
 			return e;
 		}
 	}
