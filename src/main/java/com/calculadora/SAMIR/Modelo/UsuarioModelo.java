@@ -12,9 +12,12 @@ public class UsuarioModelo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String nome;
 	private String cpf;
+
+	public int getId() {
+		return id;
+	}
 	public String getNome() {
 		return nome;
 	}

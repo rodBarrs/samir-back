@@ -6,5 +6,7 @@ import com.calculadora.SAMIR.Modelo.Beneficios;
 
 public interface BenefecioRepository extends JpaRepository<Beneficios, Integer>{
 	Beneficios findByName(String name);
+
+
 }
 
