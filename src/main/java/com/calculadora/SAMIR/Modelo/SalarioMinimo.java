@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "salarioMinimo")
 public class SalarioMinimo {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	private float valor;
