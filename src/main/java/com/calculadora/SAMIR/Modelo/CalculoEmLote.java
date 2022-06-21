@@ -27,7 +27,7 @@ public class CalculoEmLote {
     private String[] dataDeInicioBeneficioAcumulado;
     private String[] dataFinalBeneficioAcumulado;
     private String[] rmilBeneficioAcumulado;
-
+    private String inicioJuros;
 
 
     //    @JoinColumn(name = "beneficio_acumulados")
@@ -35,12 +35,16 @@ public class CalculoEmLote {
     private String honorarioAdvocativosData;
     private float  honorariosAdvocativos;
     private float acordo;
-    private int tipo;
-    private int correcao;
+    private int tipoJuros;
+    private int tipoCorrecao;
     private boolean possuiDecimoTerceiro;
     private boolean possuiJuros;
     private boolean alcada;
+    private boolean salarioMinimo;
+    private boolean limiteMinimoMaximo;
     private int usuario;
+    private String atualizacao;
+    private String dibAnterior;
 
     public int getUsuario() {
         return usuario;
@@ -220,22 +224,6 @@ public class CalculoEmLote {
         this.acordo = acordo;
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
-    public int getCorrecao() {
-        return correcao;
-    }
-
-    public void setCorrecao(int correcao) {
-        this.correcao = correcao;
-    }
-
     public boolean isPossuiDecimoTerceiro() {
         return possuiDecimoTerceiro;
     }
@@ -258,6 +246,62 @@ public class CalculoEmLote {
 
     public void setAlcada(boolean alcada) {
         this.alcada = alcada;
+    }
+
+    public int getTipoJuros() {
+        return tipoJuros;
+    }
+
+    public void setTipoJuros(int tipoJuros) {
+        this.tipoJuros = tipoJuros;
+    }
+
+    public int getTipoCorrecao() {
+        return tipoCorrecao;
+    }
+
+    public void setTipoCorrecao(int tipoCorrecao) {
+        this.tipoCorrecao = tipoCorrecao;
+    }
+
+    public String getAtualizacao() {
+        return atualizacao;
+    }
+
+    public void setAtualizacao(String atualizacao) {
+        this.atualizacao = atualizacao;
+    }
+
+    public String getDibAnterior() {
+        return dibAnterior;
+    }
+
+    public void setDibAnterior(String dibAnterior) {
+        this.dibAnterior = dibAnterior;
+    }
+
+    public boolean isSalarioMinimo() {
+        return salarioMinimo;
+    }
+
+    public void setSalarioMinimo(boolean salarioMinimo) {
+        this.salarioMinimo = salarioMinimo;
+    }
+
+    public boolean isLimiteMinimoMaximo() {
+        return limiteMinimoMaximo;
+    }
+
+    public void setLimiteMinimoMaximo(boolean limiteMinimoMaximo) {
+        this.limiteMinimoMaximo = limiteMinimoMaximo;
+    }
+
+    public String getInicioJuros() {
+        return inicioJuros;
+    }
+
+    public void setInicioJuros(String inicioJuros) {
+        this.inicioJuros = inicioJuros;
     }
 
 
