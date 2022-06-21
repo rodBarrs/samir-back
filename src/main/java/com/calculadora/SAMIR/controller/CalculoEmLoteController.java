@@ -92,12 +92,14 @@ public class CalculoEmLoteController {
 
 
     }
-    @DeleteMapping("/deletarALL")
-    public @ResponseBody List<CalculoEmLote> deletarALL(@RequestBody List<CalculoEmLote> list){
+    @DeleteMapping("/deletarAllUsuario/{usuario}")
+    public @ResponseBody List<CalculoEmLote> deletarALL(@PathVariable Integer usuario){
         try {
+            List<CalculoEmLote> list = repository.findByUsuario(usuario);
             repository.deleteAll(list);
             return list;
         } catch (Exception e) {
+            System.err.println(e);
             return null;
         }
 
