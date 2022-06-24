@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.calculadora.SAMIR.Modelo.Beneficios;
-import com.calculadora.SAMIR.Modelo.TaxaReajuste;
 import com.calculadora.SAMIR.Repositorio.BenefecioRepository;
 
 @RestController

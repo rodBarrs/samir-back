@@ -101,6 +101,7 @@ public class CorrecaoController {
 				repository.save(taxasNovas.get(i));
 				
 			}
+			repository.delete(taxa);
 			List<TaxaDeCorrecao> lista_size = repository.findAll();
 			return"Divisao executada " + lista_size.size();
 

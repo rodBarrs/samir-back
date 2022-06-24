@@ -117,6 +117,9 @@ public class CalcauloController {
 					if (informacoes.isSalarioMinimo()
 							|| rmi < salarioMinimo(mesCalculo, anoCalculo, dateFormat, listaSalarioMinimo)) {
 						rmi = salarioMinimo(mesCalculo, anoCalculo, dateFormat, listaSalarioMinimo);
+						if(informacoes.isSalarioMinimo() == false){
+							informacoes.setSalarioMinimo(true);
+						}
 					}
 
 					// estancia o objeto e adiciona na lista
@@ -297,6 +300,9 @@ public class CalcauloController {
 					if (informacoes.isSalarioMinimo()
 							|| rmi < salarioMinimo(mesCalculo, anoCalculo, dateFormat, listaSalarioMinimo)) {
 						rmi = salarioMinimo(mesCalculo, anoCalculo, dateFormat, listaSalarioMinimo);
+						if(informacoes.isSalarioMinimo() == false){
+							informacoes.setSalarioMinimo(true);
+						}
 					}
 
 					// estancia o objeto e adiciona na lista
