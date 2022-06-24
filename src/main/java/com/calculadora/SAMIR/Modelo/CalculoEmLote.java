@@ -1,7 +1,6 @@
 package com.calculadora.SAMIR.Modelo;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 @Entity
 @Table(name = "calculoEmLote")
 public class CalculoEmLote {
