@@ -28,6 +28,25 @@ public class CalculoEmLote {
     private String[] rmilBeneficioAcumulado;
     private String inicioJuros;
 
+    private String[] data;
+    private float[] reajusteAcumulado;
+    private float[] devido;
+    private float[] reajusteRecebido;
+    private float[] recebido;
+    private float[] salario;
+    private float[] correcao;
+    private float[] salarioCorrigido;
+    private float[] juros;
+    private float[] salarioJuros;
+    private float[] salarioTotal;
+
+
+    private float pacelasVencidas;
+    private float total_processos;
+    private float valor_total;
+    private float valor_juros;
+    private float valor_corrigido;
+    private float valorHonorarios;
 
     //    @JoinColumn(name = "beneficio_acumulados")
 //    private BeneficioAcumulado[] beneficioAcumulados;
@@ -301,6 +320,142 @@ public class CalculoEmLote {
 
     public void setInicioJuros(String inicioJuros) {
         this.inicioJuros = inicioJuros;
+    }
+
+    public float getTotal_processos() {
+        return total_processos;
+    }
+
+    public void setTotal_processos(float total_processos) {
+        this.total_processos = total_processos;
+    }
+
+    public float getValor_total() {
+        return valor_total;
+    }
+
+    public void setValor_total(float valor_total) {
+        this.valor_total = valor_total;
+    }
+
+    public float getValor_juros() {
+        return valor_juros;
+    }
+
+    public void setValor_juros(float valor_juros) {
+        this.valor_juros = valor_juros;
+    }
+
+    public float getValor_corrigido() {
+        return valor_corrigido;
+    }
+
+    public void setValor_corrigido(float valor_corrigido) {
+        this.valor_corrigido = valor_corrigido;
+    }
+
+    public float getValorHonorarios() {
+        return valorHonorarios;
+    }
+
+    public void setValorHonorarios(float valorHonorarios) {
+        this.valorHonorarios = valorHonorarios;
+    }
+
+    public String[] getData() {
+        return data;
+    }
+
+    public void setData(String[] data) {
+        this.data = data;
+    }
+
+    public float[] getReajusteAcumulado() {
+        return reajusteAcumulado;
+    }
+
+    public void setReajusteAcumulado(float[] reajusteAcumulado) {
+        this.reajusteAcumulado = reajusteAcumulado;
+    }
+
+    public float[] getDevido() {
+        return devido;
+    }
+
+    public void setDevido(float[] devido) {
+        this.devido = devido;
+    }
+
+    public float[] getReajusteRecebido() {
+        return reajusteRecebido;
+    }
+
+    public void setReajusteRecebido(float[] reajusteRecebido) {
+        this.reajusteRecebido = reajusteRecebido;
+    }
+
+    public float[] getRecebido() {
+        return recebido;
+    }
+
+    public void setRecebido(float[] recebido) {
+        this.recebido = recebido;
+    }
+
+    public float[] getSalario() {
+        return salario;
+    }
+
+    public void setSalario(float[] salario) {
+        this.salario = salario;
+    }
+
+    public float[] getCorrecao() {
+        return correcao;
+    }
+
+    public void setCorrecao(float[] correcao) {
+        this.correcao = correcao;
+    }
+
+    public float[] getSalarioCorrigido() {
+        return salarioCorrigido;
+    }
+
+    public void setSalarioCorrigido(float[] salarioCorrigido) {
+        this.salarioCorrigido = salarioCorrigido;
+    }
+
+    public float[] getJuros() {
+        return juros;
+    }
+
+    public void setJuros(float[] juros) {
+        this.juros = juros;
+    }
+
+    public float[] getSalarioJuros() {
+        return salarioJuros;
+    }
+
+    public void setSalarioJuros(float[] salarioJuros) {
+        this.salarioJuros = salarioJuros;
+    }
+
+    public float[] getSalarioTotal() {
+        return salarioTotal;
+    }
+
+    public void setSalarioTotal(float[] salarioTotal) {
+        this.salarioTotal = salarioTotal;
+    }
+
+    public float getPacelasVencidas() {
+        return pacelasVencidas;
+    }
+
+    public void setPacelasVencidas(float pacelasVencidas) {
+        this.pacelasVencidas = pacelasVencidas;
     }
 
 
