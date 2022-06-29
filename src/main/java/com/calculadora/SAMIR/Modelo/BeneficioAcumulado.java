@@ -1,6 +1,5 @@
 package com.calculadora.SAMIR.Modelo;
 
-import javax.persistence.*;
 
 //@Entity
 //@Table
